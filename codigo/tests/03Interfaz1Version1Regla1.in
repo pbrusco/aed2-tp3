@@ -1,0 +1,10 @@
+nuevo 1
+interfaces 
+agVersion 4
+versiones 
+agRegla < ( 192 168 0 1 ) 16 0 >
+enrutar ( 192 168 0 5 )
+enrutar ( 192 168 1 128 )
+enrutar ( 192 164 1 128 )
+enrutar ( 192 164 1 128 0 )
+enrutar ( 192 164 )
