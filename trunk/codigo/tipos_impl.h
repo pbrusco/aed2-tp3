@@ -8,8 +8,6 @@
 typedef unsigned int Nat;
 
 #include <ostream>
-#include <set>
-#include <vector>
 
 using namespace std;
 
@@ -18,7 +16,7 @@ class Conjunto
 {
 public:
 
-    Conjunto() {}
+    Conjunto();
 
     void agregar(const T & elem);
 
@@ -36,7 +34,7 @@ class Secu
 {
 public:
 
-    Secu() {};
+    Secu();
     Secu(const Secu<T>& s);
     Secu& operator=(const Secu<T> &s);
     Nat longitud();
