@@ -11,6 +11,8 @@ typedef unsigned int Nat;
 
 using namespace std;
 
+/////////////////////// CONJUNTO ///////////////////////
+
 template <typename T>
 class Conjunto
 {
@@ -28,6 +30,11 @@ private:
     // A completar...
 
 };
+
+/////////////////////// FIN CONJUNTO ///////////////////////
+
+
+/////////////////////// SECU ///////////////////////
 
 template <typename T>
 class Secu
@@ -47,12 +54,20 @@ private:
     // A completar...
 };
 
+/////////////////////// FIN SECU ///////////////////////
+
+
+/////////////////////// ARREGLO DIMENSIONABLE ///////////////////////
+
 template <typename T>
 class ArregloDimensionable
 {
 public:
     // Constructor que toma tamaño inicial
     ArregloDimensionable(Nat tamInicial);
+
+	// Destructor de arreglo dimensionable
+    ~ArregloDimensionable();
 
     // Constructor por copia
     ArregloDimensionable(const ArregloDimensionable& otro);
@@ -69,8 +84,69 @@ public:
     void escribir(ostream & os) const;
 
 private:
-    // A completar...
+	T* arreglo;
+	Nat tamanio;
 };
+
+
+template <typename T>
+ArregloDimensionable<T>::ArregloDimensionable(Nat tamInicial){
+
+	arreglo = new T[tamInicial];
+	tamanio = tamInicial;
+
+}
+
+template <typename T>
+ArregloDimensionable<T>::~ArregloDimensionable(){
+
+	delete arreglo;
+
+}
+
+template <typename T>
+ArregloDimensionable<T>::ArregloDimensionable(const ArregloDimensionable& otro){
+
+	tamanio = otro.tam();
+	arreglo = new T[tamanio];
+	for(int i=0;i<tamanio;i++)
+		arreglo[i] = (otro.arreglo)[i];
+
+}
+
+template <typename T>
+Nat ArregloDimensionable<T>::tam() const{
+	return tamanio;
+}
+
+template <typename T>
+T & ArregloDimensionable<T>::operator[](Nat pos){
+
+	return arreglo[pos];
+
+}
+
+template <typename T>
+const T & ArregloDimensionable<T>::operator[](Nat pos) const{
+
+	return arreglo[pos];
+
+}
+
+template <typename T>
+void ArregloDimensionable<T>::escribir(ostream & os) const{
+
+	os << "(";
+	for(int i=0;i<tamanio-1;i++)
+		os << arreglo[i] << " ";
+	os << arreglo[tamanio-1] << ")";
+
+}
+/////////////////////// FIN ARREGLO DIMENSIONABLE ///////////////////////
+
+
+
+
 
 template <typename T>
 ostream & operator<<(ostream &os, const Conjunto<T> & c)
