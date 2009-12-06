@@ -100,7 +100,7 @@ ArregloDimensionable<T>::ArregloDimensionable(Nat tamInicial){
 template <typename T>
 ArregloDimensionable<T>::~ArregloDimensionable(){
 
-	delete arreglo;
+	delete []arreglo;
 
 }
 
