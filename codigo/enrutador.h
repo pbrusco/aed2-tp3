@@ -29,7 +29,7 @@ public:
 
 private:
         
-        // Completar...si quiero
+        // Completar...
 
 };
 #endif
