@@ -4,14 +4,23 @@
 #include <fstream>
 #include <map>
 #include <vector>
-
 #include "parser.h"
 #include "enrutador.h"
+
+
+
+#include <cassert>
+#include <cstdlib>
+#include "testArregloDimensionable.h"
+#include "testSecu.h"
+
+
+
 
 using namespace std;
 
 int main(int argc, const char* argv[]){
-
+/*
 	int i;
 	string nombreArchivoEntrada, nombreArchivoSalida, textLine, cmd, elem_str;
 	Nat elem_nat;
@@ -20,7 +29,7 @@ int main(int argc, const char* argv[]){
     ifstream ifs;
     ofstream ofs;
 	Enrutador* router;
-
+ 
 	if( argc < 3 ){
 		cout << "Modo de uso: " << argv[0] << " archivo.in archivo.out" << endl;
 		return 1;
@@ -178,6 +187,10 @@ int main(int argc, const char* argv[]){
 
 	ifs.close();
 	ofs.close();
+*/
+
+//	testArreglo();
+// 	testSecu();
 
 	return 0;
 }
