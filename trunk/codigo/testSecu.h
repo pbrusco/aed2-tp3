@@ -66,7 +66,7 @@ void testSecu(){
 
 void testLongitudSecu(){
 
-	Nat tam = rand()%10000;
+	Nat tam = rand()%1000;
 	Secu<Nat> nueva;
 	randSecu(nueva,tam);
 	assert(nueva.longitud() == tam);

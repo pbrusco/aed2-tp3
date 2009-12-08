@@ -11,29 +11,6 @@ typedef unsigned int Nat;
 
 using namespace std;
 
-/////////////////////// CONJUNTO ///////////////////////
-
-template <typename T>
-class Conjunto
-{
-public:
-
-    Conjunto();
-
-    void agregar(const T & elem);
-
-    bool pertenece(const T & elem) const;
-
-    void escribir(ostream & os) const;
-
-private:
-    // A completar...
-
-};
-
-/////////////////////// FIN CONJUNTO ///////////////////////
-
-
 /////////////////////// SECU ///////////////////////
 
 template <typename T2>
@@ -100,7 +77,8 @@ private:
 template <typename T>
 Secu<T>::Secu(){
 
-	prim = ult = NULL;
+	prim = NULL;
+	ult = NULL;
 	tamanio = 0;
 }
 
@@ -112,13 +90,15 @@ Secu<T>::~Secu(){
 
 template <typename T>
 Secu<T>::Secu(const Secu<T>& s){
-	prim = ult = NULL;
+	prim = NULL;
+	ult = NULL;
     copiarDesde(s);
 }
 
 template <typename T>
 Secu<T>& Secu<T>::operator=(const Secu<T> &s){
-	prim = ult = NULL;
+	prim = NULL;
+	ult = NULL;
 	copiarDesde(s);
 }
 
@@ -287,10 +267,10 @@ void Secu<T>::copiarDesde(const Secu<T>& s) {
 template <class T>
 IterSecu<T> Secu<T>::crearIt(){
 
-	IterSecu<T>* res = new IterSecu<T>;
-	res->primero = prim;
-	res->ultimo = ult;
-	return *res;
+	IterSecu<T> res;
+	res.primero = prim;
+	res.ultimo = ult;
+	return res;
 }
 
 template <class T>
@@ -324,6 +304,29 @@ ostream & operator<<(ostream &os, const Secu<T> & s)
 
 
 /////////////////////// FIN SECU ///////////////////////
+
+
+/////////////////////// CONJUNTO ///////////////////////
+
+template <typename T>
+class Conjunto
+{
+public:
+
+    Conjunto();
+
+    void agregar(const T & elem);
+
+    bool pertenece(const T & elem) const;
+
+    void escribir(ostream & os) const;
+
+private:
+    Secu<T> estr;
+
+};
+
+/////////////////////// FIN CONJUNTO ///////////////////////
 
 
 /////////////////////// ARREGLO DIMENSIONABLE ///////////////////////
