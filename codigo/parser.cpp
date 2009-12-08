@@ -190,7 +190,7 @@ int main(int argc, const char* argv[]){
 */
 
 //	testArreglo();
-// 	testSecu();
+ 	testSecu();
 
 	return 0;
 }
