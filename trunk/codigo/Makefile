@@ -3,11 +3,10 @@ CC=g++
 
 .PHONY=clean all
 
+all: clean parser
+
 parser: parser.cpp
 	$(CC) $< $(GCCFLAGS) $@
 
-all: clean parser
-
 clean:
-	rm -f *.o
 	rm -f parser

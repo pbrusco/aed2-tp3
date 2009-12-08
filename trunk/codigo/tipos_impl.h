@@ -36,6 +36,31 @@ private:
 
 /////////////////////// SECU ///////////////////////
 
+template <typename T2>
+struct Nodo
+{
+	Nodo(T2 e) : dato(e) {}
+
+	T2 dato;
+	Nodo<T2>* siguiente;
+	Nodo<T2>* anterior;
+};
+
+template <typename T3>
+struct IterSecu
+{
+	IterSecu(){
+		primero = NULL;
+		ultimo = NULL;
+	}
+
+	Nodo<T3>* primero;
+	Nodo<T3>* ultimo;
+};
+
+
+
+
 template <typename T>
 class Secu
 {
@@ -46,23 +71,23 @@ public:
     Secu(const Secu<T>& s);
     Secu& operator=(const Secu<T> &s);
     Nat longitud();
+	bool esta(const T & elem) const;
     void agAtras(const T & elem);
     void agAdelante(const T & elem);
 	bool vacia() const;
     const T & iesimo(Nat i) const;
     void escribir(ostream & os) const;
+	
+
+	IterSecu<T> crearIt();
+	void avanzar(IterSecu<T> &it);
+	void retroceder(IterSecu<T> &it);
+	T& actualAdelante(IterSecu<T> it);
+	T& actualAtras(IterSecu<T> it);
+	bool tieneAnterior(IterSecu<T> &it);
+	bool tieneProximo(IterSecu<T> &it);
 
 private:
-
-	template <typename T2>
-	struct Nodo
-	{
-		Nodo(T2 e) : dato(e) {}
-
-		T2 dato;
-		Nodo<T2>* siguiente;
-		Nodo<T2>* anterior;
-	};
 
 	Nodo<T> *prim;
 	Nodo<T> *ult;
@@ -70,14 +95,12 @@ private:
 	void vaciar();
 	void copiarDesde(const Secu<T>& s);
 
-
 };
 
 template <typename T>
 Secu<T>::Secu(){
 
-	prim = NULL;
-    ult = NULL;
+	prim = ult = NULL;
 	tamanio = 0;
 }
 
@@ -89,15 +112,13 @@ Secu<T>::~Secu(){
 
 template <typename T>
 Secu<T>::Secu(const Secu<T>& s){
-
-	prim = NULL;
-    ult = NULL;
+	prim = ult = NULL;
     copiarDesde(s);
 }
 
 template <typename T>
 Secu<T>& Secu<T>::operator=(const Secu<T> &s){
-
+	prim = ult = NULL;
 	copiarDesde(s);
 }
 
@@ -105,6 +126,23 @@ template <typename T>
 Nat Secu<T>::longitud(){
 
 	return tamanio;
+}
+
+template <typename T>
+bool Secu<T>::esta(const T & elem) const{
+
+	bool res = false;
+
+	if(!vacia()){
+		Nodo<T>* aux = prim;
+		while(aux != NULL && aux->dato < elem){
+			aux = aux->siguiente;
+		}
+		if(aux != NULL)
+			res = aux->dato == elem;
+	}
+	return res;
+
 }
 
 template <typename T>
@@ -202,12 +240,12 @@ template <typename T>
 const T & Secu<T>::iesimo(Nat i) const{
 
 	Nodo<T>* aux = prim;	
-	for(int j = 0;j<=i;j++){
+	for(int j = 1;j<i;j++){
 
 		aux = aux->siguiente;
 	}
 
-	return &(aux->dato);
+	return aux->dato;
 }
 
 template <typename T>
@@ -226,10 +264,10 @@ void Secu<T>::escribir(ostream & os) const{
 template <class T> 
 void Secu<T>::vaciar(){
 
-    while (not(vacia())){
+    while (!(vacia())){
         Nodo<T>* aux = prim;
 		prim = prim->siguiente;
-		if(not(vacia()))
+		if(!(vacia()))
 			prim->anterior = NULL;
 		delete aux;
     }
@@ -238,13 +276,41 @@ void Secu<T>::vaciar(){
 template <class T>
 void Secu<T>::copiarDesde(const Secu<T>& s) {
     
-	vaciar();
     Nodo<T> *aux = s.prim;
     while(aux != NULL){
         agAtras(aux->dato);
         aux = aux->siguiente;
     }
 }
+
+
+template <class T>
+IterSecu<T> Secu<T>::crearIt(){
+
+	IterSecu<T>* res = new IterSecu<T>;
+	res->primero = prim;
+	res->ultimo = ult;
+	return *res;
+}
+
+template <class T>
+void avanzar(IterSecu<T>& it)				{it.primero = it.primero->siguiente;}
+
+template <class T>
+void retroceder(IterSecu<T>& it)			{it.ultimo = it.ultimo->anterior;}
+
+template <class T>
+T& actualAdelante(IterSecu<T> it)			{return it.primero->dato;}
+
+template <class T>
+T& actualAtras(IterSecu<T> it)				{return it.ultimo->dato;}
+
+template <class T>
+bool tieneAnterior(IterSecu<T> &it)			{return (it.ultimo->anterior != NULL);}
+
+template <class T>
+bool tieneProximo(IterSecu<T> &it)			{return (it.primero->siguiente != NULL);}
+
 
 
 
