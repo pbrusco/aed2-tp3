@@ -1,69 +1,31 @@
 #ifndef __TEST__SECU__
 #define __TEST__SECU__
 
-
-/*
-    Secu();
-	~Secu();
-    Secu(const Secu<T>& s);
-    Secu& operator=(const Secu<T> &s);
-    Nat longitud();
-	bool esta(const T & elem) const;
-    void agAtras(const T & elem);
-    void agAdelante(const T & elem);
-	bool vacia() const;
-    const T & iesimo(Nat i) const;
-    void escribir(ostream & os) const;
-	
-
-	IterSecu<T>& crearIt();
-	void avanzar(IterSecu<T>& it);
-	void retroceder(IterSecu<T>& it);
-	T& actualAdelante(IterSecu<T>& it);
-	T& actualAtras(IterSecu<T>& it);
-	bool tieneAnterior(IterSecu<T> &it);
-	bool tieneSiguiente(IterSecu<T> &it);
-*/
-
 void testSecu();
 void testLongitudSecu();
-void randSecu(Secu<Nat> &s, Nat tam);
 void testEsta();
 void testAgregar();
 void testCopiaSecu();
-bool sonIguales(Secu<Nat>& s,Secu<Nat>& t);
 void testIesimo();
+void testEscribirSecu();
+void randSecu(Secu<Nat> &s, Nat tam);
+bool sonIguales(Secu<Nat>& s,Secu<Nat>& t);
 bool estaOrdenada(Secu<Nat>& s);
 
 
 void testSecu(){
 
-	cout << "Realizando testEsta..." << endl;
-	testEsta();
-	cout << "Finalizando testEsta..." << endl;
+	cout << "testEsta..."; testEsta(); cout << "OK" << endl;
+	cout << "testAgregar..."; testAgregar(); cout << "OK" << endl;
+	cout << "testLongitudSecu..."; testLongitudSecu(); cout << "OK" << endl;
+	cout << "testCopiaSecu..."; testCopiaSecu(); cout << "OK" << endl;
+	cout << "testIesimo..."; testIesimo(); cout << "OK" << endl;
+	cout << "test EscribirSecu...  "; testEscribirSecu(); cout << endl;
 
-	cout << "Realizando testAgregar..." << endl;
-	testAgregar();
-	cout << "Finalizando testAgregar..." << endl;
-
-	cout << "Realizando testLongitudSecu..." << endl;
-	testLongitudSecu();
-	cout << "Finalizando testLongitudSecu..." << endl;
-
-	cout << "Realizando testCopiaSecu..." << endl;
-	testCopiaSecu();
-	cout << "Finalizando testCopiaSecu..." << endl;
-
-	cout << "Realizando testIesimo..." << endl;
-	testIesimo();
-	cout << "Finalizando testIesimo..." << endl;
+	cout << "MODULO SECU FUNCIONA CORRECTAMENTE" << endl << endl;
 
 }
-
-
-
-
-
+		
 void testLongitudSecu(){
 
 	Nat tam = rand()%1000;
@@ -86,8 +48,6 @@ void randSecu(Secu<Nat> &s, Nat tam){
 
 }
 
-
-
 void testEsta(){
 
 	Nat n = 1;
@@ -109,8 +69,6 @@ void testEsta(){
 	
 }
 
-
-
 void testAgregar(){
 	
 	Secu<Nat> nueva;
@@ -121,7 +79,7 @@ void testAgregar(){
 	}
 	
 	assert(estaOrdenada(nueva));
-}
+}	
 
 bool estaOrdenada(Secu<Nat>& s){
 
@@ -141,11 +99,24 @@ bool estaOrdenada(Secu<Nat>& s){
 
 void testCopiaSecu(){
 
+	// Asignacion de secu vacia
 	Secu<Nat> nueva;
-	randSecu(nueva,300);
-	Secu<Nat> copiada(nueva);
-	assert(sonIguales(nueva,copiada));
 	Secu<Nat> asignada = nueva;
+	assert(sonIguales(nueva,asignada));
+	
+	// Copia de secu vacia
+	Secu<Nat> copiada(nueva);
+	assert(sonIguales(nueva,copiada));	
+
+	// Creo una secu de longitud 300 con numeros aleatorios
+	randSecu(nueva,300);
+	
+	// Copia de la lista no vacia
+	Secu<Nat> copiada2(nueva);
+	assert(sonIguales(nueva,copiada2));
+	
+	// Asignacion de lista no vacia
+	asignada = nueva;
 	assert(sonIguales(nueva,asignada));
 
 }
@@ -162,13 +133,12 @@ bool sonIguales(Secu<Nat>& s,Secu<Nat>& t){
 	return (ss == ts);
 }
 
-
 void testIesimo(){
 
 	Secu<Nat> nueva;
 	randSecu(nueva,100);
 	IterSecu<Nat> it = nueva.crearIt();
-	assert(actualAdelante(it)==nueva.iesimo(1));
+	assert(actualAdelante(it) == nueva.iesimo(1));
 
 	avanzar(it);
 	avanzar(it);
@@ -176,6 +146,16 @@ void testIesimo(){
 	assert(actualAdelante(it)==nueva.iesimo(4));
 	assert(actualAtras(it)==nueva.iesimo(100));
 
+}
+
+
+void testEscribirSecu() {
+	Secu<Nat> s;
+	cout << endl << '\t';
+	cout << "vacia: " << s;
+	randSecu(s,5);
+	cout << endl << '\t';
+	cout << "no vacia: " << s << endl;
 }
 
 #endif
