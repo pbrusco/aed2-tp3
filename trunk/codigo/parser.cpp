@@ -7,19 +7,20 @@
 #include "parser.h"
 #include "enrutador.h"
 
-
-
 #include <cassert>
 #include <cstdlib>
-#include "testArregloDimensionable.h"
+//#include "testArregloDimensionable.h"
 #include "testSecu.h"
-
-
-
+#include "testConj.h"
 
 using namespace std;
 
 int main(int argc, const char* argv[]){
+
+ 	testSecu();
+//	testConj();
+//	testArreglo();
+
 /*
 	int i;
 	string nombreArchivoEntrada, nombreArchivoSalida, textLine, cmd, elem_str;
@@ -188,9 +189,5 @@ int main(int argc, const char* argv[]){
 	ifs.close();
 	ofs.close();
 */
-
-//	testArreglo();
- 	testSecu();
-
 	return 0;
 }
