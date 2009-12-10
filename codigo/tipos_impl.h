@@ -67,12 +67,14 @@ class Secu{
 		// Indica si la secuencia es vacia
 		bool vacia() const;
 		
-		// Devuelve el ieseimo elemento de la secuencia
+		// Devuelve el iesimo elemento de la secuencia
 		const T & iesimo(Nat i) const;
+
+		//Escribe en un ostream una secuencia de caracteres que describen al objeto
 		void escribir(ostream& os) const;
 	
 		// Crea un iterdador de la secuencia
-		IterSecu<T> crearIt();
+		IterSecu<T> crearIt() const;
 
 		// Avanza el iterador delantero
 		void avanzar(IterSecu<T>& it);
@@ -81,16 +83,16 @@ class Secu{
 		void retroceder(IterSecu<T>& it);
 		
 		// Devuelve el valor del iterador delantero
-		T& actualAdelante(IterSecu<T> it) const;
+		T& actualAdelante(const IterSecu<T> it);
 
 		// Devuelve el valor del iterador trasero
-		T& actualAtras(IterSecu<T> it) const;
+		T& actualAtras(const IterSecu<T> it);
 
 		// Indica si la secuencia tiene un elemento siguiente desde la posicion iterada delantero
-		bool tieneAnterior(IterSecu<T>& it) const;
+		bool tieneAnterior(const IterSecu<T>& it);
 
 		// Indica si la secuencia tiene un elemento anterior desde la posicion iterada trasero
-		bool tieneProximo(IterSecu<T>& it) const;
+		bool tieneProximo(const IterSecu<T>& it);
 
 	private:
 
@@ -317,7 +319,7 @@ ostream& operator<<(ostream& os, const Secu<T>& s) {
 /* --Implementacion de los metodos de ItOrd-- */
 
 template <class T>
-IterSecu<T> Secu<T>::crearIt(){
+IterSecu<T> Secu<T>::crearIt() const {
 
 	IterSecu<T> res;
 	res.primero = prim;
@@ -340,25 +342,25 @@ void retroceder(IterSecu<T>& it){
 
 
 template <class T>
-T& actualAdelante(IterSecu<T> it){
+T& actualAdelante(const IterSecu<T> it){
 	return it.primero->dato;
 }
 
 
 template <class T>
-T& actualAtras(IterSecu<T> it){
+T& actualAtras(const IterSecu<T> it){
 	return it.ultimo->dato;
 }
 
 
 template <class T>
-bool tieneAnterior(IterSecu<T>& it){
+bool tieneAnterior(const IterSecu<T>& it){
 	return (it.ultimo->anterior != NULL);
 }
 
 
 template <class T> 
-bool tieneProximo(IterSecu<T>& it){
+bool tieneProximo(const IterSecu<T>& it){
 	return (it.primero->siguiente != NULL);
 }
 
@@ -412,7 +414,7 @@ bool Conjunto<T>::pertenece(const T& elem) const{
 template <typename T>
 void Conjunto<T>::escribir(ostream& os) const{
 	
-	IterSecu<Nat> it = conj.crearIt();
+	IterSecu<T> it = conj.crearIt();
 	
 	os << '{';
 		
