@@ -6,6 +6,18 @@
 typedef ArregloDimensionable<Nat> DirIp;
 typedef Nat	Interfaz;
 
+// Regla de direccionamiento
+struct ReglaDir
+{
+    ReglaDir(DirIp d) : dirIp(d) {}
+
+    DirIp dirIp;
+    Nat cantBits;
+    Interfaz interfazSalida;
+};
+
+
+
 class ArbolDeReglas{
 
 	public:
@@ -16,25 +28,30 @@ class ArbolDeReglas{
 			//destructor de la clase
 			~ArbolDeReglas();
 
+			//agrega una regla al arbol
+			void agRegla(const ReglaDir & r);
+
 			//dada una dirIp indica si existe alguna regla que la contemple
-			bool tieneRegla(DirIp & d);
+			bool tieneRegla(const DirIp & d);
 
 			//dada una dirIp indica por que interfaz debe salir
-			Interfaz& interfazDeSalida(DirIp & d) const;			//PRECONDICION: tieneRegla(d)
+			Interfaz& interfazDeSalida(const DirIp & d) const;			//PRECONDICION: tieneRegla(d)
 
 	private:
 		
 			struct Nodo{
 	
 				Interfaz* inter;
-				ArbolDeReglas* izq;	
-				ArbolDeReglas* der;
+				Nodo* izq;	
+				Nodo* der;
 				bool sucio;
+				Nodo(): inter(NULL), izq(NULL), der(NULL), sucio(false){}
 			
 			};
 
 			Nodo* abr;
-			void vaciar();
+			void vaciar(Nodo*);
+			ArregloDimensionable<bool> pasarABits(const DirIp d);
 
 
 };
@@ -46,20 +63,83 @@ ArbolDeReglas::ArbolDeReglas(){
 
 ArbolDeReglas::~ArbolDeReglas(){
 
-	vaciar();
+	vaciar(abr);
 }
 
-void ArbolDeReglas::vaciar(){
+void ArbolDeReglas::vaciar(Nodo* abr){
 
 	if(abr != NULL){
 		Nodo* aux = abr;
-		abr->izq->vaciar();
-		abr->der->vaciar();
-		delete aux;	
+		vaciar(abr->izq);
+		vaciar(abr->der);
+		delete aux->inter;
+		delete aux;
 	}
 }
 
-bool ArbolDeReglas::tieneRegla(DirIp & d){
+void ArbolDeReglas::agRegla(const ReglaDir & r){
+
+	Nodo* aux;
+	ArregloDimensionable<bool> a(r.dirIp.tam()*8);
+	bool estabaSucio = false;
+
+	if(abr == NULL)
+		abr = new Nodo;
+
+	a = pasarABits(r.dirIp);
+	aux = abr;
+
+	for(Nat n = 0; n<r.cantBits;n++){
+
+		if (a[n]){
+		
+			if(aux->der == NULL)
+				aux->der = new Nodo;
+
+			if(aux->sucio){
+				estabaSucio = true;
+				aux->sucio = false;
+			}
+
+			delete aux->inter;
+
+			if(aux->izq != NULL)
+				aux->izq->sucio = estabaSucio;
+
+			aux = aux->der;
+		}
+		else{
+
+			if(aux->izq == NULL)
+				aux->izq = new Nodo;
+
+			if(aux->sucio){
+				estabaSucio = true;
+				aux->sucio = false;
+			}
+
+			aux->inter = NULL;
+			if(aux->der != NULL)
+				aux->der->sucio = estabaSucio;
+
+			aux = aux->izq;
+		}
+	}
+
+	if(aux->inter == NULL){
+		Interfaz* i = new Interfaz;
+		*i = r.interfazSalida;
+		aux->inter = i;
+	}
+	else
+		*(aux->inter) = r.interfazSalida;
+
+
+}
+
+ArregloDimensionable<bool> ArbolDeReglas::pasarABits(const DirIp d){}
+
+bool ArbolDeReglas::tieneRegla(const DirIp & d){
 
 
 	
