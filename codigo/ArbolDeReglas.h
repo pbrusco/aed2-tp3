@@ -51,7 +51,7 @@ class ArbolDeReglas{
 
 			Nodo* abr;
 			void vaciar(Nodo*);
-			ArregloDimensionable<bool> pasarABits(const DirIp d);
+			ArregloDimensionable<bool>& pasarABits(const DirIp d);
 
 
 };
@@ -137,7 +137,29 @@ void ArbolDeReglas::agRegla(const ReglaDir & r){
 
 }
 
-ArregloDimensionable<bool> ArbolDeReglas::pasarABits(const DirIp d){}
+ArregloDimensionable<bool>& ArbolDeReglas::pasarABits(const DirIp d){
+
+	ArregloDimensionable<bool> res(d.tam()*8);
+	Nat i = 7;
+	Nat j = 0;
+	Nat aux;
+	
+	for(j;j<d.tam();j++){
+
+		aux = d[j];
+		for(i;i>=j*8;i--){
+
+
+
+		}
+
+	}
+
+
+
+
+
+}
 
 bool ArbolDeReglas::tieneRegla(const DirIp & d){
 
