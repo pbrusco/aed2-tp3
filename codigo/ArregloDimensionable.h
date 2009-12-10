@@ -90,7 +90,7 @@ template <typename T>
 void ArregloDimensionable<T>::escribir(ostream & os) const{
 
 	os << "(";
-	for(int i=0;i<tamanio-1;i++)
+	for(Nat i=0;i<tamanio-1;i++)
 		os << arreglo[i] << " ";
 	os << arreglo[tamanio-1] << ")";
 

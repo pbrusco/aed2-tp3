@@ -9,18 +9,16 @@
 
 #include <cassert>
 #include <cstdlib>
-//#include "testArregloDimensionable.h"
 #include "testSecu.h"
-//#include "testConj.h"
+#include "testConj.h"
+//#include "testArregloDimensionable.h"
 
 using namespace std;
 
 int main(int argc, const char* argv[]){
 
-
-
-// 	testSecu();
-//	testConj();
+ 	testSecu();
+	testConj();
 //	testArreglo();
 
 /*
