@@ -151,6 +151,7 @@ Secu<T>& Secu<T>::operator=(const Secu<T>& s){
 	
 	vaciar();
 	copiarDesde(s);
+	return *this;
 }
 
 
@@ -271,7 +272,7 @@ const T& Secu<T>::iesimo(Nat i) const{
 
 	Nodo<T>* aux = prim;	
 
-	for(int j = 1; j<i; j++){
+	for(Nat j = 1; j<i; j++){
 		aux = aux->siguiente;
 	}
 

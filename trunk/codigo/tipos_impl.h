@@ -13,13 +13,6 @@ typedef unsigned int Nat;
 #include "Secu.h"
 #include "Conjunto.h"
 #include "ArregloDimensionable.h"
-#include "ArbolDeReglas.h"
-
-
-
-
-
-
-
+//#include "ArbolDeReglas.h"
 
 #endif

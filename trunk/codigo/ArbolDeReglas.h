@@ -6,15 +6,6 @@
 typedef ArregloDimensionable<Nat> DirIp;
 typedef Nat	Interfaz;
 
-// Regla de direccionamiento
-struct ReglaDir
-{
-    ReglaDir(DirIp d) : dirIp(d) {}
-
-    DirIp dirIp;
-    Nat cantBits;
-    Interfaz interfazSalida;
-};
 
 
 
