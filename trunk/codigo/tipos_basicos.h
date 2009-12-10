@@ -14,17 +14,6 @@ typedef Nat Interfaz;
 typedef Nat Version;
 typedef ArregloDimensionable<Nat> DirIp;
 
-// Regla de direccionamiento
-struct ReglaDir
-{
-    DirIp dirIp;
-    Nat cantBits;
-    Interfaz interfazSalida;
-    
-    ReglaDir(DirIp d) : dirIp(d) {}
-};
-
-
 // Evento de una interfaz
 struct Evento
 {
@@ -144,5 +133,7 @@ ostream & operator<<(ostream &os, RespuestaDir r)
 
     return os;
 }
+
+
 
 #endif
