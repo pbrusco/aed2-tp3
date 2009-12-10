@@ -14,15 +14,6 @@ typedef Nat Interfaz;
 typedef Nat Version;
 typedef ArregloDimensionable<Nat> DirIp;
 
-// Regla de direccionamiento
-struct ReglaDir
-{
-    ReglaDir(DirIp d) : dirIp(d) {}
-
-    DirIp dirIp;
-    Nat cantBits;
-    Interfaz interfazSalida;
-};
 
 // Evento de una interfaz
 struct Evento
