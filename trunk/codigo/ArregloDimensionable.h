@@ -9,6 +9,9 @@
 template <typename T>
 class ArregloDimensionable{
 	public:
+		// Constructor por defecto
+		ArregloDimensionable();
+		
 		// Constructor por defecto que toma tamaño inicial
 		ArregloDimensionable(Nat tamInicial);
 
@@ -27,16 +30,27 @@ class ArregloDimensionable{
 		// Devuelve el iesimo elemento (no modificable)
 		const T& operator[](Nat pos) const;
 
+		//asignacion
+		ArregloDimensionable& operator=(const ArregloDimensionable& otro);
+
 		// Muestra en pantalla los elementos del arreglo encerrados entre "()"
 		void escribir(ostream & os) const;
 
 	private:
 		T* arreglo;
 		Nat tamanio;
+		void copiarDesde(const ArregloDimensionable& otro);
 };
 
 
 /* --Implementacion de los metodos de Arreglo Dimensionable --*/
+
+template <typename T>
+ArregloDimensionable<T>::ArregloDimensionable(){
+
+	arreglo = NULL;
+	tamanio = 0;
+}
 
 template <typename T>
 ArregloDimensionable<T>::ArregloDimensionable(Nat tamInicial){
@@ -55,6 +69,12 @@ ArregloDimensionable<T>::~ArregloDimensionable(){
 
 template <typename T>
 ArregloDimensionable<T>::ArregloDimensionable(const ArregloDimensionable& otro){
+
+	copiarDesde(otro);
+}
+
+template <typename T>
+void ArregloDimensionable<T>::copiarDesde(const ArregloDimensionable& otro){
 
 	tamanio = otro.tam();
 	arreglo = new T[tamanio];
@@ -84,6 +104,17 @@ const T & ArregloDimensionable<T>::operator[](Nat pos) const{
 	return arreglo[pos];
 
 }
+
+template <typename T>
+ArregloDimensionable<T>& ArregloDimensionable<T>::operator=(const ArregloDimensionable& otro){
+
+	delete []arreglo;
+	tamanio = 0;
+	copiarDesde(otro);
+	return *this;
+
+}
+
 
 
 template <typename T>
