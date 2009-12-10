@@ -53,8 +53,8 @@ private:
 Enrutador::Enrutador(const int cantInter){
 
 	cantInterfaces = cantInter;
-	status_inter = ArregloDimensionable<NatYSecuEvento> nuevo(cantInter);
-//	nuevo;
+	ArregloDimensionable<NatYSecuEvento> nuevo(cantInter);
+	status_inter = nuevo;
 
 
 }
