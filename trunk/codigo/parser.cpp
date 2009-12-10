@@ -11,7 +11,7 @@
 #include <cstdlib>
 //#include "testArregloDimensionable.h"
 #include "testSecu.h"
-#include "testConj.h"
+//#include "testConj.h"
 
 using namespace std;
 
