@@ -8,6 +8,16 @@ typedef Nat	Interfaz;
 
 
 
+// Regla de direccionamiento
+struct ReglaDir
+{
+    DirIp dirIp;
+    Nat cantBits;
+    Interfaz interfazSalida;
+    
+    ReglaDir(DirIp d) : dirIp(d) {}
+};
+
 
 class ArbolDeReglas{
 

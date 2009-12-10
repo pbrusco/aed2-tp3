@@ -188,7 +188,7 @@ void Secu<T>::agAtras(const T& elem){
 	nuevo->siguiente = NULL;
 
 	if (!vacia()){
-		if(prim->dato > elem){
+		if(elem < prim->dato){
 			prim->anterior = nuevo;
 			nuevo->siguiente = prim;
 			prim = nuevo;
@@ -201,7 +201,7 @@ void Secu<T>::agAtras(const T& elem){
 		else{
 			Nodo<T>* aux = ult;
 
-			while((aux->anterior)->dato > elem) {
+			while(elem < (aux->anterior)->dato) {
 				aux = aux->anterior;
 			}
 			
@@ -228,7 +228,7 @@ void Secu<T>::agAdelante(const T& elem){
 	nuevo->siguiente = NULL;
 	
 	if (!vacia()){
-		if(prim->dato > elem){
+		if(elem < prim->dato){
 			prim->anterior = nuevo;
 			nuevo->siguiente = prim;
 			prim = nuevo;
