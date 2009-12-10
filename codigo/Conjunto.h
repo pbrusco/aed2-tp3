@@ -31,9 +31,7 @@ private:
 /* --Implementacion de los metodos de Conjunto-- */
 
 template <typename T>
-Conjunto<T>::Conjunto(){
-	conj = Secu<T>();
-}
+Conjunto<T>::Conjunto(){}
 
 template <typename T>
 void Conjunto<T>::agregar(const T& elem){

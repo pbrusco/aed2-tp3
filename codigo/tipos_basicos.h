@@ -22,6 +22,7 @@ struct Evento
     Interfaz interfaz;
 
 
+
 };
 
 // Representación de las respuestas posibles de un ruteo
@@ -107,6 +108,13 @@ bool operator<(const Evento& e1,const Evento& e2)
     return e1.timestamp < e2.timestamp;
 }
 
+bool operator==(const Evento& e1,const Evento& e2)
+{
+    return e1.timestamp == e2.timestamp and e1.interfaz == e2.interfaz and e1.esCaida == e2.esCaida;
+}
+
+
+
 ostream & operator<<(ostream &os, Evento e)
 {
     os << "< " << (e.esCaida? "CAIDA" : "NOCAIDA") << " " << e.timestamp << " " << e.interfaz << " >";
@@ -135,7 +143,6 @@ ostream & operator<<(ostream &os, RespuestaDir r)
 
     return os;
 }
-
 
 
 #endif

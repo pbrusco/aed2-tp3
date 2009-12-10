@@ -173,6 +173,12 @@ bool ArbolDeReglas::tieneRegla(const DirIp & d){
 }
 
 
+Interfaz& ArbolDeReglas::interfazDeSalida(const DirIp & d) const{
+
+
+
+}
+
 
 
 ////////////////////////////////////// FIN ARBOL DE REGLAS /////////////////////////////////////
