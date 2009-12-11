@@ -57,7 +57,7 @@ class Secu{
 		// Indica si la secuencia es vacia
 		bool vacia() const;
 		
-		// Devuelve el iesimo elemento de la secuencia
+		// Devuelve el iesimo elemento de la secuencia(comenzando desde 1)
 		const T & iesimo(Nat i) const;
 
 		//Escribe en un ostream una secuencia de caracteres que describen al objeto

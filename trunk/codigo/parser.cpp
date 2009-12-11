@@ -11,9 +11,8 @@
 #include <cstdlib>
 #include "testSecu.h"
 #include "testCola.h"
-
 #include "testConj.h"
-//#include "testArregloDimensionable.h"
+#include "testArregloDimensionable.h"
 
 using namespace std;
 
@@ -22,7 +21,7 @@ int main(int argc, const char* argv[]){
 	testSecu();
  	testCola();
 	testConj();
-//	testArreglo();
+	testArreglo();
 
 /*
 	int i;

@@ -20,7 +20,7 @@ void testSecu(){
 	cout << "testLongitudSecu..."; testLongitudSecu(); cout << "OK" << endl;
 	cout << "testCopiaSecu..."; testCopiaSecu(); cout << "OK" << endl;
 	cout << "testIesimo..."; testIesimo(); cout << "OK" << endl;
-	cout << "test EscribirSecu...  "; testEscribirSecu(); cout << endl;
+	cout << "test EscribirSecu...  "; testEscribirSecu(); cout << "OK" << endl;
 
 	cout << "MODULO SECU FUNCIONA CORRECTAMENTE" << endl << endl;
 
@@ -30,8 +30,25 @@ void testLongitudSecu(){
 
 	Nat tam = rand()%1000;
 	Secu<Nat> nueva;
+	assert(nueva.longitud() == 0);
 	randSecu(nueva,tam);
 	assert(nueva.longitud() == tam);
+
+
+	Nat n = rand()%100000;
+	while(nueva.esta(n)){
+		n = rand()%100000;
+	}
+	nueva.agAtras(n);
+	assert(nueva.longitud() == tam+1);
+
+	n = rand()%100000;
+	while(nueva.esta(n)){
+		n = rand()%100000;
+	}
+	nueva.agAtras(n);
+	assert(nueva.longitud() == tam+2);
+	
 
 }
 
@@ -76,6 +93,10 @@ void testAgregar(){
 	for(Nat i=0;i<20;i++){
 		if(!nueva.esta(i))
 			nueva.agAtras(i);
+	}
+	for(Nat i=20;i<40;i++){
+		if(!nueva.esta(i))
+			nueva.agAdelante(i);
 	}
 	
 	assert(estaOrdenada(nueva));
@@ -138,24 +159,30 @@ void testIesimo(){
 	Secu<Nat> nueva;
 	randSecu(nueva,100);
 	IterSecu<Nat> it = nueva.crearIt();
-	assert(actualAdelante(it) == nueva.iesimo(1));
-
-	avanzar(it);
-	avanzar(it);
-	avanzar(it);
-	assert(actualAdelante(it)==nueva.iesimo(4));
-	assert(actualAtras(it)==nueva.iesimo(100));
+	for(Nat i = 0; i < nueva.longitud();i++){
+		assert(nueva.iesimo(i+1) == actualAdelante(it));
+		avanzar(it);
+	}
 
 }
 
 
 void testEscribirSecu() {
 	Secu<Nat> s;
-	cout << endl << '\t';
-	cout << "vacia: " << s;
-	randSecu(s,5);
-	cout << endl << '\t';
-	cout << "no vacia: " << s << endl;
+	ostringstream os1, os2;
+	string ss;
+	s.escribir(os1);
+	ss = os1.str();
+	assert("[]" == ss);
+	
+	for(Nat i = 0;i < 10;i++)
+		s.agAtras(i);
+
+	s.escribir(os2);
+	ss = os2.str();
+	assert("[0,1,2,3,4,5,6,7,8,9]" == ss);
+
+
 }
 
 #endif
