@@ -90,6 +90,7 @@ ArbolDeReglas::~ArbolDeReglas(){
 
 void ArbolDeReglas::agRegla(const ReglaDir& r){
 
+	bool camino_sucio = false;
 	Nodo* aux = raiz;
 	ArregloDimensionable<bool> d_ip(pasarABits(r.dirIp));
 	
@@ -99,37 +100,30 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 
  	for(Nat i = 0; i <= r.cantBits; i++){
 		
+		if(aux->dirty){
+			camino_sucio = true;
+			aux->dirty = false;
+		}
+
 		if (d_ip[i]){
 
-			if(aux->dirty){
-				aux->dirty = false;
-				if(aux->izq != NULL){
-					(aux->izq)->dirty = true;
-				}
-			}
-			
-			if (aux->der == NULL){
-				aux->der = new Nodo();
-				(aux->der)->dirty = true;
-			}
-			
-			aux = aux->der;
-		}
-		
-		else{
-
-			if(aux->dirty){
-				aux->dirty = false;
-				if(aux->der != NULL){
-					(aux->der)->dirty = true;
-				}
-			}
-			
-			if (aux->izq == NULL){
-				aux->izq = new Nodo();
+			if(camino_sucio && aux->izq != NULL){
 				(aux->izq)->dirty = true;
 			}
+			if (aux->der == NULL){
+				aux->der = new Nodo();
+			}
+			aux = aux->der;
+		}
 			
+		else{
+
+			if(camino_sucio && aux->der != NULL){
+				(aux->der)->dirty = true;
+			}
+			if (aux->izq == NULL){
+				aux->izq = new Nodo();
+			}
 			aux = aux->izq;
 		}	
 		
@@ -140,13 +134,16 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 		Interfaz x = r.interfazSalida;
 		aux->inter = &x;
 	}
-	
 	else{
 		*(aux->inter) = r.interfazSalida;		
 	}
 	
-	(aux->der)->dirty = true;
-	(aux->izq)->dirty = true;
+	if(aux->der != NULL){
+		(aux->der)->dirty = true;
+	}
+	if(aux->izq != NULL){
+		(aux->izq)->dirty = true;
+	}
 }
 
 
