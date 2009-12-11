@@ -1,16 +1,15 @@
 #ifndef __ARBOLDEREGLAS__
 #define __ARBOLDEREGLAS__
 
-////////////////////////////////////// ARBOL DE REGLAS /////////////////////////////////////
 
+// Renombres básicos
+typedef Nat Interfaz;
+typedef Nat Version;
 typedef ArregloDimensionable<Nat> DirIp;
-typedef Nat	Interfaz;
-
-
 
 // Regla de direccionamiento
-struct ReglaDir
-{
+struct ReglaDir{
+    
     DirIp dirIp;
     Nat cantBits;
     Interfaz interfazSalida;
@@ -19,168 +18,248 @@ struct ReglaDir
 };
 
 
+/////////////////////////////////////////// ARBOL DE REGLAS //////////////////////////////////////////
+
+/* --Interfaz de ArbolDeReglas */
+
 class ArbolDeReglas{
 
 	public:
-
-			//constructor de la clase
-			ArbolDeReglas();
-
-			//destructor de la clase
-			~ArbolDeReglas();
-
-			//agrega una regla al arbol
-			void agRegla(const ReglaDir & r);
-
-			//dada una dirIp indica si existe alguna regla que la contemple
-			bool tieneRegla(const DirIp & d);
-
-			//dada una dirIp indica por que interfaz debe salir
-			Interfaz& interfazDeSalida(const DirIp & d) const;			//PRECONDICION: tieneRegla(d)
-
-	private:
 		
-			struct Nodo{
-	
-				Interfaz* inter;
-				Nodo* izq;	
-				Nodo* der;
-				bool sucio;
-				Nodo(): inter(NULL), izq(NULL), der(NULL), sucio(false){}
+		// Constructor por defecto
+		ArbolDeReglas();
+		
+		// Destructor
+		~ArbolDeReglas();
+		
+		// Operador de asignacion
+		//ArbolDeReglas& ArbolDeReglas::operator=(const ArbolDeReglas& a);
+		
+		// Constructor que agregra una regla al arbol de reglas
+		void agRegla(const ReglaDir& regla);
+		
+		// Indica dada una DirIp si existe una regla que se corresponda
+		bool tieneRegla(const DirIp& dir_ip) const;
+		
+		// Indica, dada una dirIp, la interfaz de salida
+		Interfaz interfazDeSalida(const DirIp& d) const;
 			
-			};
+	
+	private:
+	
+		struct Nodo {
+		
+			Interfaz* inter;
+			Nodo* izq;
+			Nodo* der;
+			bool dirty;
+			Nodo () : inter(NULL), izq(NULL), der(NULL), dirty(false) {}
+			
+		 };
 
-			Nodo* abr;
-			void vaciar(Nodo*);
-			ArregloDimensionable<bool>& pasarABits(const DirIp d);
-
-
+		Nodo* raiz;
+		
+		void vaciar();
+		void copiarArbol(const ArbolDeReglas& a);
+		static ArregloDimensionable<bool>& pasarABits(const DirIp& dir_ip);	
 };
 
-ArbolDeReglas::ArbolDeReglas(){
 
-	abr = NULL;
+
+/* Implementacion de los metodos publicos de ArbolDeReglas */
+
+ArbolDeReglas::ArbolDeReglas(){
+	
+	raiz = NULL;	
 }
+
 
 ArbolDeReglas::~ArbolDeReglas(){
 
-	vaciar(abr);
+	vaciar();
 }
 
-void ArbolDeReglas::vaciar(Nodo* abr){
 
-	if(abr != NULL){
-		Nodo* aux = abr;
-		vaciar(abr->izq);
-		vaciar(abr->der);
-		delete aux->inter;
-		delete aux;
-	}
-}
+/*ArbolDeReglas& ArbolDeReglas::operator=(const ArbolDeReglas& a){
 
-void ArbolDeReglas::agRegla(const ReglaDir & r){
-
-	Nodo* aux;
-	ArregloDimensionable<bool> a(r.dirIp.tam()*8);
-	bool estabaSucio = false;
-
-	if(abr == NULL)
-		abr = new Nodo;
-
-	a = pasarABits(r.dirIp);
-	aux = abr;
-
-	for(Nat n = 0; n<r.cantBits;n++){
-
-		if (a[n]){
+	vaciar();
+	copiarArbol(a);
+	return *this;
+}*/
 		
-			if(aux->der == NULL)
-				aux->der = new Nodo;
 
-			if(aux->sucio){
-				estabaSucio = true;
-				aux->sucio = false;
+void ArbolDeReglas::agRegla(const ReglaDir& r){
+
+	Nodo* aux = raiz;
+	ArregloDimensionable<bool> d_ip(pasarABits(r.dirIp));
+	
+	if (raiz == NULL){
+		raiz = new Nodo();
+	}
+
+ 	for(Nat i = 0; i <= r.cantBits; i++){
+		
+		if (d_ip[i]){
+
+			if(aux->dirty){
+				aux->dirty = false;
+				if(aux->izq != NULL){
+					(aux->izq)->dirty = true;
+				}
 			}
-
-			delete aux->inter;
-
-			if(aux->izq != NULL)
-				aux->izq->sucio = estabaSucio;
-
+			
+			if (aux->der == NULL){
+				aux->der = new Nodo();
+				(aux->der)->dirty = true;
+			}
+			
 			aux = aux->der;
 		}
+		
 		else{
 
-			if(aux->izq == NULL)
-				aux->izq = new Nodo;
-
-			if(aux->sucio){
-				estabaSucio = true;
-				aux->sucio = false;
+			if(aux->dirty){
+				aux->dirty = false;
+				if(aux->der != NULL){
+					(aux->der)->dirty = true;
+				}
 			}
-
-			aux->inter = NULL;
-			if(aux->der != NULL)
-				aux->der->sucio = estabaSucio;
-
+			
+			if (aux->izq == NULL){
+				aux->izq = new Nodo();
+				(aux->izq)->dirty = true;
+			}
+			
 			aux = aux->izq;
-		}
+		}	
+		
+		i++;
 	}
-
+	
 	if(aux->inter == NULL){
-		Interfaz* i = new Interfaz;
-		*i = r.interfazSalida;
-		aux->inter = i;
+		Interfaz x = r.interfazSalida;
+		aux->inter = &x;
 	}
-	else
-		*(aux->inter) = r.interfazSalida;
-
-
+	
+	else{
+		*(aux->inter) = r.interfazSalida;		
+	}
+	
+	(aux->der)->dirty = true;
+	(aux->izq)->dirty = true;
 }
 
-ArregloDimensionable<bool>& ArbolDeReglas::pasarABits(const DirIp d){
 
-	ArregloDimensionable<bool> res(d.tam()*8);
-	Nat i = 7;
-	Nat j = 0;
-	Nat aux;
+Interfaz ArbolDeReglas::interfazDeSalida(const DirIp& dir_ip) const{
+   
+	Nat i = 0;
+	Interfaz* pRes = NULL;
+	Interfaz* pTemp = NULL;
+ 	ArregloDimensionable<bool> dirEnBits(pasarABits(dir_ip));
 	
-	for(j;j<d.tam();j++){
-
-		aux = d[j];
-		for(i;i>=j*8;i--){
-
-
-
+	Nodo* aux = raiz;
+	
+	while (pRes == NULL) {
+	
+		if (aux->inter != NULL){
+			pTemp = aux->inter;
+		}
+		
+		if (dirEnBits[i] == true){
+			if (aux->der == NULL || (aux->der)->dirty){
+				pRes = pTemp;
+			}
+			else{
+				aux = aux->der;
+			}
+		}
+       
+       else{
+			if (aux->izq == NULL || (aux->izq)->dirty){
+				pRes = pTemp;
+			}
+           else{
+			   aux = aux->izq;
+			}
 		}
 
+       i++;
 	}
 
-
-
-
-
+	return *pRes;
 }
 
-bool ArbolDeReglas::tieneRegla(const DirIp & d){
 
 
+/* Implementacion de metodos privados de ArbolDeReglas*/
+
+
+void ArbolDeReglas::vaciar(){
+	Nodo* aux;
+	Cola<Nodo*> pendientes;
 	
-
-
-
-
+	pendientes.encolar(raiz);
+	
+	while (!pendientes.vacia()){
+		aux = pendientes.observar();
+	
+		if((aux->izq) != NULL){
+			pendientes.encolar(aux->izq);
+		}
+		
+		if(aux->der != NULL){
+			pendientes.encolar(aux->der);
+		}
+		pendientes.desencolar();
+	}
 }
 
 
-Interfaz& ArbolDeReglas::interfazDeSalida(const DirIp & d) const{
-
-
-
+void ArbolDeReglas::copiarArbol(const ArbolDeReglas& a) {
+	
+	
 }
 
 
+bool ArbolDeReglas::tieneRegla(const DirIp& dir_ip) const{ 
 
-////////////////////////////////////// FIN ARBOL DE REGLAS /////////////////////////////////////
+	Nat i = 0;
+	bool res = false;
+	bool continuar = true;
+	ArregloDimensionable<bool> dirEnBits(pasarABits(dir_ip));
+	
+	if(raiz == NULL){
+		return res;
+	}
+	
+	else{
+		Nodo* aux = raiz;
+		
+		while(!aux->dirty && continuar && !res){
+
+			if(dirEnBits[i]){
+				aux = aux->der;
+			}
+			else{
+				aux = aux->der;
+			}
+			
+			continuar = (!dirEnBits[i] && aux->izq != NULL) && (dirEnBits[i] && aux->der != NULL);
+			res = (aux->inter != NULL);
+			i++;
+		}
+	}
+	
+	return res;
+}
+
+
+ArregloDimensionable<bool>& ArbolDeReglas::pasarABits(const DirIp& dir_ip){
+
+	ArregloDimensionable<bool>* res = new ArregloDimensionable<bool>(8);
+	return *res;
+}	
+
+///////////////////////////////////////// FIN ARBOL DE REGLAS ////////////////////////////////////////
 
 #endif
