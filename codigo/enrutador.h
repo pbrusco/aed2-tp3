@@ -145,7 +145,7 @@ void Enrutador::agEvento(const Evento &e){
  Nat tc;
  Evento evento_prev;
  Evento evento_post;
- IterSecu<Evento> it = status_inter[i].eventos.crearIt();
+ IterSecu<Evento> it = status_inter[e.interfaz].eventos.crearIt();
 
  i = e.interfaz ;
  
@@ -192,7 +192,7 @@ void Enrutador::agEvento(const Evento &e){
 
 RespuestaDir Enrutador::enrutar(const DirIp &d) const{
 
-  if (not versioness.pertenece(d.tam())){
+  if (!versioness.pertenece(d.tam())){
   
       return RespuestaDir::DireccionNoSoportada();
   }else
@@ -200,10 +200,10 @@ RespuestaDir Enrutador::enrutar(const DirIp &d) const{
 	IterSecu<VersionYArbol> it = reglas.crearIt();
 	Interfaz i;
       	
-      while (actualAdelante(it).version = d.tam()){
+      while (actualAdelante(it).version == d.tam()){
          avanzar(it);
       }
-     if (not actualAdelante(it).abr.tieneRegla(d)){
+     if (!actualAdelante(it).abr.tieneRegla(d)){
          return RespuestaDir::InterfazDeSalidaNoEncontrada();
 	}
      else{

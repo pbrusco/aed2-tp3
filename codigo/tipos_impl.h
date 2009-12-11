@@ -11,8 +11,10 @@ typedef unsigned int Nat;
 // - Interfaces (externas) implementadas para la solucion
 
 #include "Secu.h"
+#include "Cola.h"
 #include "Conjunto.h"
 #include "ArregloDimensionable.h"
 #include "ArbolDeReglas.h"
+
 
 #endif

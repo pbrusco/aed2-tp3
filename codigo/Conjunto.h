@@ -33,6 +33,7 @@ private:
 template <typename T>
 Conjunto<T>::Conjunto(){}
 
+
 template <typename T>
 void Conjunto<T>::agregar(const T& elem){
 	if(!conj.esta(elem)){
