@@ -9,19 +9,24 @@ void testArreglo();
 void testLongitud();
 void testCopia();
 void sonIguales(ArregloDimensionable<Nat>& ar1, ArregloDimensionable<Nat>& ar2);
-
-
+void randArreglo(ArregloDimensionable<Nat> & a);
+void testOperador();
 
 void testArreglo(){
 
-	cout << "Realizando testLongitud..." << endl;
+	cout << "Realizando testLongitud...";
 	testLongitud();
-	cout << "Finalizando testLongitud..." << endl;
+	cout << "OK" << endl;
 
-	cout << "Realizando testCopia..." << endl;
+	cout << "Realizando testCopia...";
 	testCopia();
-	cout << "Finalizando testCopia..." << endl;
+	cout << "OK" << endl;
 
+	cout << "Realizando testOperador...";
+	testOperador();
+	cout << "OK" << endl;
+
+	cout << "MODULO ARREGLO DIMENSIONABLE FUNCIONA CORRECTAMENTE" << endl << endl;
 }
 
 
@@ -35,9 +40,11 @@ void testLongitud(){
 	ArregloDimensionable<Nat> arreglo2(tamanio);
 	assert(arreglo2.tam() == tamanio);
 
-	tamanio = rand()%10000;
-	ArregloDimensionable<Nat> arreglo3(tamanio);
-	assert(arreglo3.tam() == tamanio);
+	ArregloDimensionable<Nat> arreglo3(arreglo2);
+	assert(arreglo3.tam() == arreglo2.tam());
+
+	arreglo = arreglo3;
+	assert(arreglo.tam() == arreglo3.tam());
 	
 
 }
@@ -68,6 +75,43 @@ void sonIguales(ArregloDimensionable<Nat>& ar1, ArregloDimensionable<Nat>& ar2){
 	s = os1.str();
 	t = os2.str();
 	assert(s == t);
+}
+
+
+void testOperador(){
+
+	Nat tamanio = 20;
+	ArregloDimensionable<Nat> arreglo(tamanio);
+	for(int i=0;i<arreglo.tam();i++)
+		arreglo[i] = i;
+
+	for(int i=0;i<arreglo.tam();i++)
+		assert(arreglo[i] == i);
+
+	ArregloDimensionable<Nat> primero(4);
+	for(int i=0;i<primero.tam();i++)
+		primero[i] = i + 1;
+
+	ArregloDimensionable<Nat> segundo(4);
+	for(int i=0;i<segundo.tam();i++)
+		segundo[i] = i*i;
+
+	ArregloDimensionable< ArregloDimensionable<Nat> > matriz(2);
+	matriz[0] = primero;
+	matriz[1] = segundo;
+
+	assert(matriz[0][0] == primero[0]);
+	assert(matriz[1][0] == segundo[0]);	
+
+	sonIguales(primero, matriz[0]);
+	sonIguales(segundo, matriz[1]);
+
+}
+
+void randArreglo(ArregloDimensionable<Nat> & a){
+
+	for(int i=0;i<a.tam();i++)
+		a[i] = rand()%100 * i;
 }
 
 
