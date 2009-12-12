@@ -109,6 +109,7 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 
 			if(camino_sucio && aux->izq != NULL){
 				(aux->izq)->dirty = true;
+				(auz->izq)->inter = NULL;
 			}
 			if (aux->der == NULL){
 				aux->der = new Nodo();
@@ -120,6 +121,7 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 
 			if(camino_sucio && aux->der != NULL){
 				(aux->der)->dirty = true;
+				(auz->izq)->inter = NULL;
 			}
 			if (aux->izq == NULL){
 				aux->izq = new Nodo();
@@ -131,8 +133,9 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 	}
 	
 	if(aux->inter == NULL){
-		Interfaz x = r.interfazSalida;
-		aux->inter = &x;
+		Interfaz* x = new Interfaz;
+		*x = r.interfazSalida;
+		aux->inter = x;
 	}
 	else{
 		*(aux->inter) = r.interfazSalida;		
@@ -187,6 +190,48 @@ Interfaz ArbolDeReglas::interfazDeSalida(const DirIp& dir_ip) const{
 }
 
 
+bool ArbolDeReglas::tieneRegla(const DirIp& dir_ip) const{ 
+
+	Nat i = 0;
+	bool res = false;
+	bool continuar = true;
+	ArregloDimensionable<bool> dirEnBits(pasarABits(dir_ip));
+	
+	if(raiz == NULL){
+		return res;
+	}
+	
+	else{
+		Nodo* aux = raiz;
+		
+		while(!aux->dirty && continuar && !res){
+
+			if(dirEnBits[i]){
+				if(aux->der == NULL){
+					continuar = false;
+				}
+				else {
+					aux = aux->der;
+				}
+			}
+			else{
+				if(aux->izq == NULL){
+					continuar = false;
+				}
+				else {
+					aux = aux->izq;
+				}
+			}
+			
+			res = (aux->inter != NULL);
+			i++;
+		}
+	}
+	
+	return res;
+}
+
+
 
 /* Implementacion de metodos privados de ArbolDeReglas*/
 
@@ -215,39 +260,6 @@ void ArbolDeReglas::vaciar(){
 void ArbolDeReglas::copiarArbol(const ArbolDeReglas& a) {
 	
 	
-}
-
-
-bool ArbolDeReglas::tieneRegla(const DirIp& dir_ip) const{ 
-
-	Nat i = 0;
-	bool res = false;
-	bool continuar = true;
-	ArregloDimensionable<bool> dirEnBits(pasarABits(dir_ip));
-	
-	if(raiz == NULL){
-		return res;
-	}
-	
-	else{
-		Nodo* aux = raiz;
-		
-		while(!aux->dirty && continuar && !res){
-
-			if(dirEnBits[i]){
-				aux = aux->der;
-			}
-			else{
-				aux = aux->der;
-			}
-			
-			continuar = (!dirEnBits[i] && aux->izq != NULL) && (dirEnBits[i] && aux->der != NULL);
-			res = (aux->inter != NULL);
-			i++;
-		}
-	}
-	
-	return res;
 }
 
 
