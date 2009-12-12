@@ -91,12 +91,13 @@ ArbolDeReglas::~ArbolDeReglas(){
 void ArbolDeReglas::agRegla(const ReglaDir& r){
 
 	bool camino_sucio = false;
-	Nodo* aux = raiz;
 	ArregloDimensionable<bool> d_ip(pasarABits(r.dirIp));
 	
 	if (raiz == NULL){
 		raiz = new Nodo();
 	}
+
+	Nodo* aux = raiz;
 
  	for(Nat i = 0; i < r.cantBits; i++){
 		
@@ -208,6 +209,8 @@ bool ArbolDeReglas::tieneRegla(const DirIp& dir_ip) const{
 		
 		while(!aux->dirty && continuar && !res){
 
+			res = (aux->inter != NULL);
+
 			if(dirEnBits[i]){
 				if(aux->der == NULL){
 					continuar = false;
@@ -224,8 +227,7 @@ bool ArbolDeReglas::tieneRegla(const DirIp& dir_ip) const{
 					aux = aux->izq;
 				}
 			}
-			
-			res = (aux->inter != NULL);
+
 			i++;
 		}
 	}
@@ -267,8 +269,27 @@ void ArbolDeReglas::copiarArbol(const ArbolDeReglas& a) {
 
 ArregloDimensionable<bool>& ArbolDeReglas::pasarABits(const DirIp& dir_ip){
 
-	ArregloDimensionable<bool>* res = new ArregloDimensionable<bool>(8);
-	return *res;
+	ArregloDimensionable<bool> res(d.tam()*8);
+	Nat i = 7;
+	Nat j = 0;
+	Nat aux;
+	
+	for(j;j<d.tam();j++){
+
+		aux = d[j];
+		for(i;i>=j*8;i--){
+
+			if(aux % 2 == 1)
+				res[i] = true;
+			else
+				res[i] = false;
+			aux = aux / 2;
+		}
+
+		i = i + 15;
+	}
+
+	return res;
 }	
 
 ///////////////////////////////////////// FIN ARBOL DE REGLAS ////////////////////////////////////////
