@@ -98,7 +98,7 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 		raiz = new Nodo();
 	}
 
- 	for(Nat i = 0; i <= r.cantBits; i++){
+ 	for(Nat i = 0; i < r.cantBits; i++){
 		
 		if(aux->dirty){
 			camino_sucio = true;
@@ -107,9 +107,10 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 
 		if (d_ip[i]){
 
-			if(camino_sucio && aux->izq != NULL){
-				(aux->izq)->dirty = true;
-				(auz->izq)->inter = NULL;
+			if(camino_sucio){
+				if(aux->izq != NULL)
+					(aux->izq)->dirty = true;
+				delete aux->inter;
 			}
 			if (aux->der == NULL){
 				aux->der = new Nodo();
@@ -119,9 +120,10 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 			
 		else{
 
-			if(camino_sucio && aux->der != NULL){
-				(aux->der)->dirty = true;
-				(auz->izq)->inter = NULL;
+			if(camino_sucio){
+				if(aux->der != NULL)
+					(aux->der)->dirty = true;
+				delete aux->inter;
 			}
 			if (aux->izq == NULL){
 				aux->izq = new Nodo();
