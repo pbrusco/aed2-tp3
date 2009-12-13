@@ -7,6 +7,7 @@ void testTieneRegla();
 void testInterfazDeSalida();
 void testCopiaArbol();
 
+
 void testArbol(){
 
 	cout << "testTieneRegla..."; testTieneRegla(); cout << "OK" << endl;
