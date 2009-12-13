@@ -113,7 +113,7 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 
 	bool camino_sucio = false;
 	ArregloDimensionable<bool> d_ip(pasarABits(r.dirIp));
-	
+
 	if (raiz == NULL)
 		raiz = new Nodo();
 
@@ -126,12 +126,13 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 			aux->dirty = false;
 		}
 
-		if(camino_sucio)
+		if(camino_sucio || aux == raiz){
 			delete aux->inter;
-
+			aux->inter = NULL;
+		}
 		if (d_ip[i]){
 
-			if(aux->izq != NULL)
+			if(aux->izq != NULL && camino_sucio)
 				(aux->izq)->dirty = camino_sucio;
 				
 			if (aux->der == NULL)
@@ -142,7 +143,7 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 			
 		else{
 
-			if(aux->der != NULL)
+			if(aux->der != NULL && camino_sucio)
 				(aux->der)->dirty = camino_sucio;
 
 			if (aux->izq == NULL){
@@ -150,8 +151,6 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 			}
 			aux = aux->izq;
 		}	
-		
-		i++;
 	}
 	
 	if(aux->inter == NULL){
@@ -168,7 +167,6 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 	
 	if(aux->izq != NULL)
 		(aux->izq)->dirty = true;
-	
 }
 
 
@@ -303,7 +301,6 @@ ArregloDimensionable<bool>& ArbolDeReglas::pasarABits(const DirIp& dir_ip){
 		
 		i = i + 16;
 	}
-	cout << *res << endl;
 	return *res;
 }	
 
