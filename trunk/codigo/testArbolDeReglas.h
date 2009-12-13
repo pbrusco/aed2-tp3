@@ -58,7 +58,7 @@ void testTieneRegla(){
 
 	ArbolDeReglas abr;
 	abr.agRegla(regla3);
-	assert(abr.tieneRegla(d3) == true);
+//	assert(abr.tieneRegla(d3) == true);
 
 
 }
