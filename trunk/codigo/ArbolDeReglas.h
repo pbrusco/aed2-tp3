@@ -31,6 +31,9 @@ class ArbolDeReglas{
 		
 		// Destructor
 		~ArbolDeReglas();
+
+		//constructor por copia
+		ArbolDeReglas(const ArbolDeReglas & otro);
 		
 		// Operador de asignacion
 		//ArbolDeReglas& ArbolDeReglas::operator=(const ArbolDeReglas& a);
@@ -79,6 +82,11 @@ ArbolDeReglas::~ArbolDeReglas(){
 	vaciar();
 }
 
+ArbolDeReglas::ArbolDeReglas(const ArbolDeReglas & otro){
+
+	raiz = NULL;
+	copiarArbol(otro);
+}
 
 /*ArbolDeReglas& ArbolDeReglas::operator=(const ArbolDeReglas& a){
 
@@ -242,39 +250,42 @@ void ArbolDeReglas::vaciar(){
 	Nodo* aux;
 	Cola<Nodo*> pendientes;
 	
-	pendientes.encolar(raiz);
+	if(raiz != NULL)
+		pendientes.encolar(raiz);
 	
 	while (!pendientes.vacia()){
 		aux = pendientes.observar();
-	
-		if((aux->izq) != NULL){
-			pendientes.encolar(aux->izq);
-		}
-		
-		if(aux->der != NULL){
-			pendientes.encolar(aux->der);
-		}
 		pendientes.desencolar();
+
+		if((aux->izq) != NULL)
+			pendientes.encolar(aux->izq);
+		
+		if(aux->der != NULL)
+			pendientes.encolar(aux->der);
+		
+		delete aux->inter;
+		delete aux;
 	}
 }
 
 
 void ArbolDeReglas::copiarArbol(const ArbolDeReglas& a) {
 	
+		
 	
 }
 
 
 ArregloDimensionable<bool>& ArbolDeReglas::pasarABits(const DirIp& dir_ip){
 
-	ArregloDimensionable<bool> res(d.tam()*8);
+	ArregloDimensionable<bool> *res = new ArregloDimensionable<bool>(dir_ip.tam()*8);
 	Nat i = 7;
 	Nat j = 0;
 	Nat aux;
 	
-	for(j;j<d.tam();j++){
+	for(j;j<dir_ip.tam();j++){
 
-		aux = d[j];
+		aux = dir_ip[j];
 		for(i;i>=j*8;i--){
 
 			if(aux % 2 == 1)
@@ -287,7 +298,7 @@ ArregloDimensionable<bool>& ArbolDeReglas::pasarABits(const DirIp& dir_ip){
 		i = i + 15;
 	}
 
-	return res;
+	return *res;
 }	
 
 ///////////////////////////////////////// FIN ARBOL DE REGLAS ////////////////////////////////////////
