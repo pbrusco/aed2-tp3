@@ -1,6 +1,8 @@
 #ifndef __ARBOLDEREGLAS__
 #define __ARBOLDEREGLAS__
 
+#include <cassert>
+#include <cstdlib>
 
 // Renombres básicos
 typedef Nat Interfaz;
@@ -64,16 +66,15 @@ class ArbolDeReglas{
 		
 		void vaciar();
 		void copiarArbol(Nodo* copia, Nodo* otro);
-		static ArregloDimensionable<bool>& pasarABits(const DirIp& dir_ip);	
+		static ArregloDimensionable<bool>& pasarABits(const DirIp& dir_ip);
 };
-
-
 
 /* Implementacion de los metodos publicos de ArbolDeReglas */
 
 ArbolDeReglas::ArbolDeReglas(){
 	
-	raiz = NULL;	
+	raiz = NULL;
+	testPasarABits();
 }
 
 
@@ -287,14 +288,14 @@ void ArbolDeReglas::vaciar(){
 ArregloDimensionable<bool>& ArbolDeReglas::pasarABits(const DirIp& dir_ip){
 
 	ArregloDimensionable<bool> *res = new ArregloDimensionable<bool>(dir_ip.tam()*8);
-	Nat i = 7;
-	Nat j = 0;
+	int i = 0;
+	int j = 0;
 	Nat aux;
 	
 	for(j;j<dir_ip.tam();j++){
 
 		aux = dir_ip[j];
-		for(i;i>=j*8;i--){
+		for(i;i<=j*8+7;i++){
 
 			if(aux % 2 == 1)
 				(*res)[i] = true;
@@ -302,8 +303,6 @@ ArregloDimensionable<bool>& ArbolDeReglas::pasarABits(const DirIp& dir_ip){
 				(*res)[i] = false;
 			aux = aux / 2;
 		}
-
-		i = i + 15;
 	}
 
 	return *res;
