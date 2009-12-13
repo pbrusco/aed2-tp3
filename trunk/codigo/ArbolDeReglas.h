@@ -194,7 +194,7 @@ Interfaz ArbolDeReglas::interfazDeSalida(const DirIp& dir_ip) const{
 				pRes = pTemp;
 			}
 			else{
-				aux = aux->d!aux->dirty &&er;
+				aux = aux->der;
 			}
 		}
        
@@ -297,9 +297,9 @@ ArregloDimensionable<bool>& ArbolDeReglas::pasarABits(const DirIp& dir_ip){
 		for(i;i>=j*8;i--){
 
 			if(aux % 2 == 1)
-				res[i] = true;
+				(*res)[i] = true;
 			else
-				res[i] = false;
+				(*res)[i] = false;
 			aux = aux / 2;
 		}
 
