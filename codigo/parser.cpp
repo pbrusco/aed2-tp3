@@ -13,15 +13,20 @@
 #include "testCola.h"
 #include "testConj.h"
 #include "testArregloDimensionable.h"
+#include "testArbolDeReglas.h"
 
 using namespace std;
 
 int main(int argc, const char* argv[]){
-
+/*
 	testSecu();
  	testCola();
 	testConj();
 	testArreglo();
+*/
+
+testArbol();
+
 
 /*
 	int i;
