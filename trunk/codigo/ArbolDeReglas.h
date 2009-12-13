@@ -194,7 +194,7 @@ Interfaz ArbolDeReglas::interfazDeSalida(const DirIp& dir_ip) const{
 				pRes = pTemp;
 			}
 			else{
-				aux = aux->der;
+				aux = aux->d!aux->dirty &&er;
 			}
 		}
        
@@ -228,7 +228,7 @@ bool ArbolDeReglas::tieneRegla(const DirIp& dir_ip) const{
 	else{
 		Nodo* aux = raiz;
 		
-		while(!aux->dirty && continuar && !res){
+		while(continuar && !aux->dirty && !res){
 
 			res = (aux->inter != NULL);
 
