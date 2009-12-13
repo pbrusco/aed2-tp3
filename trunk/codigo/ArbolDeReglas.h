@@ -36,7 +36,7 @@ class ArbolDeReglas{
 		ArbolDeReglas(const ArbolDeReglas & otro);
 		
 		// Operador de asignacion
-		//ArbolDeReglas& ArbolDeReglas::operator=(const ArbolDeReglas& a);
+		ArbolDeReglas& operator=(const ArbolDeReglas& a);
 		
 		// Constructor que agregra una regla al arbol de reglas
 		void agRegla(const ReglaDir& regla);
@@ -63,7 +63,7 @@ class ArbolDeReglas{
 		Nodo* raiz;
 		
 		void vaciar();
-		void copiarArbol(const ArbolDeReglas& a);
+		void copiarArbol(Nodo* copia, Nodo* otro);
 		static ArregloDimensionable<bool>& pasarABits(const DirIp& dir_ip);	
 };
 
@@ -85,15 +85,30 @@ ArbolDeReglas::~ArbolDeReglas(){
 ArbolDeReglas::ArbolDeReglas(const ArbolDeReglas & otro){
 
 	raiz = NULL;
-	copiarArbol(otro);
+	copiarArbol(raiz, otro.raiz);
 }
 
-/*ArbolDeReglas& ArbolDeReglas::operator=(const ArbolDeReglas& a){
+ArbolDeReglas& ArbolDeReglas::operator=(const ArbolDeReglas& a){
 
 	vaciar();
-	copiarArbol(a);
+	copiarArbol(raiz, a.raiz);
 	return *this;
-}*/
+}
+
+
+void ArbolDeReglas::copiarArbol(Nodo* copia, Nodo* otro) {
+
+	if(otro != NULL){
+		copia = new Nodo;
+		if(otro->inter != NULL){
+			copia->inter = new Interfaz;
+			*copia->inter = *otro->inter;
+		}
+
+	copiarArbol(copia->izq,otro->izq);
+	copiarArbol(copia->der,otro->der);
+	}
+}
 		
 
 void ArbolDeReglas::agRegla(const ReglaDir& r){
@@ -266,13 +281,6 @@ void ArbolDeReglas::vaciar(){
 		delete aux->inter;
 		delete aux;
 	}
-}
-
-
-void ArbolDeReglas::copiarArbol(const ArbolDeReglas& a) {
-	
-		
-	
 }
 
 
