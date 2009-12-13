@@ -74,7 +74,6 @@ class ArbolDeReglas{
 ArbolDeReglas::ArbolDeReglas(){
 	
 	raiz = NULL;
-	testPasarABits();
 }
 
 
