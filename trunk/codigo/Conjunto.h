@@ -53,18 +53,18 @@ void Conjunto<T>::escribir(ostream& os) const{
 	
 	IterSecu<T> it = conj.crearIt();
 	
-	os << '{';
+	os << "{ ";
 		
 	if (!conj.vacia()){
 				
 		while(tieneProximo(it)){
-			os << actualAdelante(it) << ',';
+			os << actualAdelante(it) << ' ';
 			avanzar(it);
 		}
 		os << (actualAdelante(it));
 	}
 
-	os << '}';
+	os << " }";
 }
  
 

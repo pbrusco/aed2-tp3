@@ -284,17 +284,17 @@ template <typename T>
 void Secu<T>::escribir(ostream& os) const{
 
 	Nodo<T>* aux = prim;
-	os << '[';
+	os << "[ ";
 		
 	if (!vacia()){
 		while(aux != ult){
-			os << (aux->dato) << ',';
+			os << (aux->dato) << ' ';
 			aux = aux->siguiente;
 		}
 		os << (ult->dato);
 	}
 
-	os << ']';
+	os << " ]" ;
 }
 
 
