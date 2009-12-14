@@ -16,5 +16,4 @@ typedef unsigned int Nat;
 #include "ArregloDimensionable.h"
 #include "ArbolDeReglas.h"
 
-
 #endif
