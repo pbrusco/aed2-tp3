@@ -20,9 +20,6 @@ struct Evento
     bool esCaida;
     Nat timestamp;
     Interfaz interfaz;
-
-
-
 };
 
 // Representación de las respuestas posibles de un ruteo

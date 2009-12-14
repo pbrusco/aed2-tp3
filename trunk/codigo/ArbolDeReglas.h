@@ -142,9 +142,8 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 	}
 	
 	if(aux->inter == NULL){
-		Interfaz* x = new Interfaz;
-		*x = r.interfazSalida;
-		aux->inter = x;
+		aux->inter = new Interfaz;
+		*aux->inter = r.interfazSalida;
 	}
 	else
 		*(aux->inter) = r.interfazSalida;		
@@ -275,14 +274,18 @@ void ArbolDeReglas::copiarArbol(Nodo* copia, Nodo* otro) {
 			copia->inter = new Interfaz;
 			*copia->inter = *otro->inter;
 		}
+	
 		copia->dirty = otro->dirty;
-		if(otro->izq != NULL)
+		
+		if(otro->izq != NULL) {
 			copia->izq = new Nodo;
-		if(otro->der != NULL)
+			copiarArbol(copia->izq,otro->izq);
+		}
+		
+		if(otro->der != NULL) {
 			copia->der = new Nodo;
-
-		copiarArbol(copia->izq,otro->izq);
-		copiarArbol(copia->der,otro->der);
+			copiarArbol(copia->der,otro->der);
+		}
 	}
 }
 

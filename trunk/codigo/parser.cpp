@@ -26,15 +26,13 @@ int main(int argc, const char* argv[]){
 	testArbol();
 */
 
-
-
 	int i;
 	string nombreArchivoEntrada, nombreArchivoSalida, textLine, cmd, elem_str;
 	Nat elem_nat;
 	bool esPrimerComando = true;
 	Decoder decode;
-    ifstream ifs;
-    ofstream ofs;
+    	ifstream ifs;
+    	ofstream ofs;
 	Enrutador* router;
  
 	if( argc < 3 ){

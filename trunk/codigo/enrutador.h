@@ -37,25 +37,25 @@ struct NatYSecuEvento{
 class Enrutador
 {
 public:
-    
+
     // Debería ser el único constructor
-    Enrutador(const int cantInterfaces);    
+    Enrutador(const int cantInterfaces);
+
     // Destructor
     ~Enrutador();
 
     // Observadores
-
-    const Conjunto<Version> & versiones() const;
+    const Conjunto<Version>& versiones() const;
     Nat interfaces() const;                         // devuelve cuantas interfaces tiene
-    const Secu<Evento> & eventos(Interfaz i);       // ordenados de mas viejo a mas reciente
+    const Secu<Evento>& eventos(Interfaz i);       // ordenados de mas viejo a mas reciente
     Nat tiempoCaida(Interfaz i) const;
     bool estaCaida(Interfaz i) const;
 
     // Operaciones
-    void agVersion(const Version &v);
-    void agRegla(const ReglaDir &r);
-    void agEvento(const Evento &e);
-    RespuestaDir enrutar(const DirIp &d) const;
+    void agVersion(const Version& v);
+    void agRegla(const ReglaDir& r);
+    void agEvento(const Evento& e);
+    RespuestaDir enrutar(const DirIp& d) const;
 
 private:
 
@@ -86,7 +86,7 @@ Enrutador::~Enrutador(){
 
 
 
-const Conjunto<Version> & Enrutador::versiones() const {
+const Conjunto<Version>& Enrutador::versiones() const {
 
 	return versioness;
 }
@@ -96,11 +96,10 @@ Nat Enrutador::interfaces() const{
 	return cantInterfaces;
 }
 
-const Secu<Evento> & Enrutador::eventos(Interfaz i){
+const Secu<Evento>& Enrutador::eventos(Interfaz i){
 
 	return status_inter[i].eventos;
 }
-
 
 
 Nat Enrutador::tiempoCaida(Interfaz i) const{
@@ -192,35 +191,23 @@ RespuestaDir Enrutador::enrutar(const DirIp &d) const{
   }else
       {
 	IterSecu<VersionYArbol> it = reglas.crearIt();
-	Interfaz i;
-      	
-      while (actualAdelante(it).version == d.tam()){
-         avanzar(it);
-      }
-     if (!actualAdelante(it).abr.tieneRegla(d)){
-         return RespuestaDir::InterfazDeSalidaNoEncontrada();
+	      	
+      	while (actualAdelante(it).version != d.tam()){
+        	avanzar(it);
+      	}
+     	if (!actualAdelante(it).abr.tieneRegla(d)){
+        	return RespuestaDir::InterfazDeSalidaNoEncontrada();
 	}
-     else{
-         i = actualAdelante(it).abr.interfazDeSalida(d) ;
-         if (estaCaida(i)){
-             return RespuestaDir::InterfazDeSalidaCaida(i);
-         }else{
-             return RespuestaDir::SalidaPorInterfaz(i);
-         }
-     }
+     	else{
+        	Interfaz i = actualAdelante(it).abr.interfazDeSalida(d) ;
+         	if (estaCaida(i)){
+             		return RespuestaDir::InterfazDeSalidaCaida(i);
+         	}
+		else{
+             		return RespuestaDir::SalidaPorInterfaz(i);
+         	}
+     	}
  }
-
-
-
-
-
-
-
-
-
-
-
-
 
 }
 
