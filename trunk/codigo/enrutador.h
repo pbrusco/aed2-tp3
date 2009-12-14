@@ -110,8 +110,14 @@ Nat Enrutador::tiempoCaida(Interfaz i) const{
 
 bool Enrutador::estaCaida(Interfaz i) const{
 
+	if ((status_inter[i].eventos).vacia()){
+	return false;
+	}
+	else
+	{
 	IterSecu<Evento> it = status_inter[i].eventos.crearIt();
 	return actualAtras(it).esCaida;
+	}
 }
 
 
