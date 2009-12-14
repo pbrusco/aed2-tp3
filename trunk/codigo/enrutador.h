@@ -137,20 +137,16 @@ void Enrutador::agRegla(const ReglaDir &r){
 
 
 void Enrutador::agEvento(const Evento &e){
-
-	Interfaz i;
-	Nat tc;
+	
 	Evento evento_prev;
 	Evento evento_post;
 
-	i = e.interfaz;
-
-	tc = status_inter[i].tiempoCaida;
+	Interfaz i = e.interfaz;
+	Nat tc = status_inter[i].tiempoCaida;
+	
 	status_inter[i].eventos.agAtras(e);
 
 	IterSecu<Evento> it = status_inter[i].eventos.crearIt();
-
-	
 
 	if ((actualAtras(it) == e) and tieneAnterior(it)){
 	 retroceder(it);
