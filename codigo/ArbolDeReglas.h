@@ -64,7 +64,7 @@ class ArbolDeReglas{
 		
 		void vaciar();
 		void copiarArbol(Nodo* copia, Nodo* otro);
-		static ArregloDimensionable<bool>& pasarABits(const DirIp& dir_ip);
+		static ArregloDimensionable<bool> pasarABits(const DirIp& dir_ip);
 };
 
 /* Implementacion de los metodos publicos de ArbolDeReglas */
@@ -280,9 +280,9 @@ void ArbolDeReglas::vaciar(){
 }
 
 
-ArregloDimensionable<bool>& ArbolDeReglas::pasarABits(const DirIp& dir_ip){
+ArregloDimensionable<bool> ArbolDeReglas::pasarABits(const DirIp& dir_ip){
 
-	ArregloDimensionable<bool> *res = new ArregloDimensionable<bool>(dir_ip.tam()*8);
+	ArregloDimensionable<bool> res(dir_ip.tam()*8);
 	int i = 7;
 	int j = 0;
 	Nat aux;
@@ -293,15 +293,15 @@ ArregloDimensionable<bool>& ArbolDeReglas::pasarABits(const DirIp& dir_ip){
 		for(i;i>=j*8;i--){
 
 			if(aux % 2 == 1)
-				(*res)[i] = true;
+				res[i] = true;
 			else
-				(*res)[i] = false;
+				res[i] = false;
 			aux = aux / 2;
 		}
 		
 		i = i + 16;
 	}
-	return *res;
+	return res;
 }	
 
 ///////////////////////////////////////// FIN ARBOL DE REGLAS ////////////////////////////////////////
