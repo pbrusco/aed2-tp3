@@ -70,12 +70,10 @@ Enrutador::~Enrutador(){
 
 IterSecu<VersionYArbol> it = reglas.crearIt();
 
-while(tieneProximo(it)){
-delete &(actualAdelante(it).abr);
-delete &(actualAdelante(it));
-}
-
-
+	while(tieneProximo(it)){
+		delete &(actualAdelante(it).abr);
+		delete &(actualAdelante(it));
+	}
 }
 
 
@@ -119,74 +117,73 @@ return actualAtras(it).esCaida;
 
 void Enrutador::agVersion(const Version &v){
 
-versioness.agregar(v);
-ArbolDeReglas* a = new ArbolDeReglas;
-VersionYArbol* aux = new VersionYArbol(v,*a);
-reglas.agAdelante(*aux);
-
+	versioness.agregar(v);
+	ArbolDeReglas* a = new ArbolDeReglas;
+	VersionYArbol* aux = new VersionYArbol(v,*a);
+	reglas.agAdelante(*aux);
 }
 
 
 void Enrutador::agRegla(const ReglaDir &r){
-IterSecu<VersionYArbol> it = reglas.crearIt();
-Version v = r.dirIp.tam();
-while(actualAdelante(it).version != v){
-avanzar(it);
-}
-actualAdelante(it).abr.agRegla(r);
 
+	IterSecu<VersionYArbol> it = reglas.crearIt();
+	Version v = r.dirIp.tam();
 
+	while(actualAdelante(it).version != v)
+		avanzar(it);
+
+	actualAdelante(it).abr.agRegla(r);
 }
 
 
 void Enrutador::agEvento(const Evento &e){
  
- Interfaz i;
- Nat tc;
- Evento evento_prev;
- Evento evento_post;
- IterSecu<Evento> it = status_inter[e.interfaz].eventos.crearIt();
+	Interfaz i;
+	Nat tc;
+	Evento evento_prev;
+	Evento evento_post;
+	IterSecu<Evento> it = status_inter[e.interfaz].eventos.crearIt();
 
- i = e.interfaz ;
- 
- tc = (status_inter[i]).tiempoCaida;
- (status_inter[i]).eventos.agAtras(e) ;
- 
- if ((actualAtras(it) == e) and tieneAnterior(it)){
-     retroceder(it);
-     if (actualAtras(it).esCaida)
-     {
-         tc = tc + (e.timestamp - actualAtras(it).timestamp);
-     }
- }
- else{
-     if (tieneAnterior(it)){
-          while (actualAtras(it) == e){
-              evento_post = actualAtras(it) ;
-              retroceder(it);
-          }
-          if (not tieneAnterior(it))
-          {
-              if (e.esCaida)
-              {
-                  tc = tc + (evento_post.timestamp - e.timestamp);
-              }
-          }
-          else{
-              retroceder(it);
-              evento_prev = actualAtras(it);
-              if (e.esCaida and (not evento_prev.esCaida))
-              {
-                  tc = tc + (evento_post.timestamp - e.timestamp);
-              }
-              if (not e.esCaida and evento_prev.esCaida)
+	i = e.interfaz ;
+
+	tc = (status_inter[i]).tiempoCaida;
+	(status_inter[i]).eventos.agAtras(e) ;
+
+	if ((actualAtras(it) == e) and tieneAnterior(it)){
+	 retroceder(it);
+	 if (actualAtras(it).esCaida)
+	 {
+		 tc = tc + (e.timestamp - actualAtras(it).timestamp);
+	 }
+	}
+	else{
+	 if (tieneAnterior(it)){
+		  while (actualAtras(it) == e){
+		      evento_post = actualAtras(it) ;
+		      retroceder(it);
+		  }
+		  if (not tieneAnterior(it))
+		  {
+		      if (e.esCaida)
+		      {
+		          tc = tc + (evento_post.timestamp - e.timestamp);
+		      }
+		  }
+		  else{
+		      retroceder(it);
+		      evento_prev = actualAtras(it);
+		      if (e.esCaida and (not evento_prev.esCaida))
+		      {
+		          tc = tc + (evento_post.timestamp - e.timestamp);
+		      }
+		      if (not e.esCaida and evento_prev.esCaida)
 		{
-                  tc = tc - (evento_post.timestamp - e.timestamp);
-              	}
-          }
-     }
- }
- (status_inter[i]).tiempoCaida = tc;
+		          tc = tc - (evento_post.timestamp - e.timestamp);
+		      	}
+		  }
+	 }
+	}
+	(status_inter[i]).tiempoCaida = tc;
 }
 
 

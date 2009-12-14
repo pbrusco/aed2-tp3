@@ -8,9 +8,11 @@ using namespace std;
 void testArreglo();
 void testLongitud();
 void testCopia();
+void testOperador();
+
 void sonIguales(ArregloDimensionable<Nat>& ar1, ArregloDimensionable<Nat>& ar2);
 void randArreglo(ArregloDimensionable<Nat> & a);
-void testOperador();
+
 
 void testArreglo(){
 

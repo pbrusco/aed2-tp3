@@ -20,15 +20,11 @@ using namespace std;
 int main(int argc, const char* argv[]){
 /*
 	testSecu();
- 	testCola();
 	testConj();
 	testArreglo();
+	testArbol();
+ 	testCola();
 */
-
-testArbol();
-
-
-/*
 	int i;
 	string nombreArchivoEntrada, nombreArchivoSalida, textLine, cmd, elem_str;
 	Nat elem_nat;
@@ -195,6 +191,6 @@ testArbol();
 
 	ifs.close();
 	ofs.close();
-*/
+
 	return 0;
 }
