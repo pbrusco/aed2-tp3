@@ -82,7 +82,7 @@ ArbolDeReglas::~ArbolDeReglas(){
 
 ArbolDeReglas::ArbolDeReglas(const ArbolDeReglas & otro){
 
-	raiz = NULL;
+	raiz = new Nodo;
 	copiarArbol(raiz, otro.raiz);
 }
 
@@ -97,14 +97,18 @@ ArbolDeReglas& ArbolDeReglas::operator=(const ArbolDeReglas& a){
 void ArbolDeReglas::copiarArbol(Nodo* copia, Nodo* otro) {
 
 	if(otro != NULL){
-		copia = new Nodo;
 		if(otro->inter != NULL){
 			copia->inter = new Interfaz;
 			*copia->inter = *otro->inter;
 		}
+		copia->dirty = otro->dirty;
+		if(otro->izq != NULL)
+			copia->izq = new Nodo;
+		if(otro->der != NULL)
+			copia->der = new Nodo;
 
-	copiarArbol(copia->izq,otro->izq);
-	copiarArbol(copia->der,otro->der);
+		copiarArbol(copia->izq,otro->izq);
+		copiarArbol(copia->der,otro->der);
 	}
 }
 		
