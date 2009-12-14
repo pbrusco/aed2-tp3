@@ -27,10 +27,11 @@ struct NatYSecuEvento{
 	Secu<Evento> eventos;
 	
 	//CONSTRUCTOR	
-	NatYSecuEvento(){
+	NatYSecuEvento() {
 	tiempoCaida = 0;
 	}
 };
+
 
 
 class Enrutador
@@ -66,9 +67,16 @@ private:
 
 
 
+Enrutador::Enrutador(const int cantInter){
+
+	cantInterfaces = cantInter;
+	status_inter = ArregloDimensionable<NatYSecuEvento>(cantInter);
+}
+
+
 Enrutador::~Enrutador(){
 
-IterSecu<VersionYArbol> it = reglas.crearIt();
+	IterSecu<VersionYArbol> it = reglas.crearIt();
 
 	while(tieneProximo(it)){
 		delete &(actualAdelante(it).abr);
@@ -76,12 +84,6 @@ IterSecu<VersionYArbol> it = reglas.crearIt();
 	}
 }
 
-
-Enrutador::Enrutador(const int cantInter){
-
-	cantInterfaces = cantInter;
-	status_inter = ArregloDimensionable<NatYSecuEvento>(cantInter);
-}
 
 
 const Conjunto<Version> & Enrutador::versiones() const {
@@ -102,16 +104,15 @@ const Secu<Evento> & Enrutador::eventos(Interfaz i){
 
 
 Nat Enrutador::tiempoCaida(Interfaz i) const{
-	return status_inter[i].tiempoCaida;
 
+	return status_inter[i].tiempoCaida;
 }
 
 
 bool Enrutador::estaCaida(Interfaz i) const{
-IterSecu<Evento> it = status_inter[i].eventos.crearIt();
-return actualAtras(it).esCaida;
 
-
+	IterSecu<Evento> it = status_inter[i].eventos.crearIt();
+	return actualAtras(it).esCaida;
 }
 
 
@@ -137,54 +138,50 @@ void Enrutador::agRegla(const ReglaDir &r){
 
 
 void Enrutador::agEvento(const Evento &e){
- 
+
 	Interfaz i;
 	Nat tc;
 	Evento evento_prev;
 	Evento evento_post;
-	IterSecu<Evento> it = status_inter[e.interfaz].eventos.crearIt();
 
-	i = e.interfaz ;
+	i = e.interfaz;
 
-	tc = (status_inter[i]).tiempoCaida;
-	(status_inter[i]).eventos.agAtras(e) ;
+	tc = status_inter[i].tiempoCaida;
+	status_inter[i].eventos.agAtras(e);
+
+	IterSecu<Evento> it = status_inter[i].eventos.crearIt();
+
+	
 
 	if ((actualAtras(it) == e) and tieneAnterior(it)){
 	 retroceder(it);
 	 if (actualAtras(it).esCaida)
-	 {
 		 tc = tc + (e.timestamp - actualAtras(it).timestamp);
-	 }
 	}
 	else{
-	 if (tieneAnterior(it)){
-		  while (actualAtras(it) == e){
-		      evento_post = actualAtras(it) ;
-		      retroceder(it);
-		  }
-		  if (not tieneAnterior(it))
-		  {
-		      if (e.esCaida)
-		      {
-		          tc = tc + (evento_post.timestamp - e.timestamp);
-		      }
-		  }
-		  else{
-		      retroceder(it);
-		      evento_prev = actualAtras(it);
-		      if (e.esCaida and (not evento_prev.esCaida))
-		      {
-		          tc = tc + (evento_post.timestamp - e.timestamp);
-		      }
-		      if (not e.esCaida and evento_prev.esCaida)
-		{
-		          tc = tc - (evento_post.timestamp - e.timestamp);
-		      	}
-		  }
-	 }
+		if (tieneAnterior(it)){
+			while (actualAtras(it) == e){
+			evento_post = actualAtras(it) ;
+			retroceder(it);
+			}
+		
+			if (not tieneAnterior(it))
+				if (e.esCaida)
+				  tc = tc + (evento_post.timestamp - e.timestamp);
+			else{
+				retroceder(it);
+				evento_prev = actualAtras(it);
+				if (e.esCaida and (not evento_prev.esCaida))
+					tc = tc + (evento_post.timestamp - e.timestamp);
+
+				if (not e.esCaida and evento_prev.esCaida)
+					tc = tc - (evento_post.timestamp - e.timestamp);
+			}
+		}
 	}
 	(status_inter[i]).tiempoCaida = tc;
 }
+
 
 
 RespuestaDir Enrutador::enrutar(const DirIp &d) const{

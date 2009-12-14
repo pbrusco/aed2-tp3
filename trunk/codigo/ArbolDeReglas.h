@@ -89,6 +89,7 @@ ArbolDeReglas::ArbolDeReglas(const ArbolDeReglas & otro){
 ArbolDeReglas& ArbolDeReglas::operator=(const ArbolDeReglas& a){
 
 	vaciar();
+	raiz = new Nodo;
 	copiarArbol(raiz, a.raiz);
 	return *this;
 }
