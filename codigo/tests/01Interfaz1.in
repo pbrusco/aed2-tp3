@@ -2,9 +2,9 @@ nuevo 1
 interfaces 
 agVersion 4
 versiones 
-agEvento < CAIDA 12 1 >
+agEvento < CAIDA 12 0 >
 eventos 0
 tiempoCaida 0
-agEvento < NOCAIDA 13 1 >
+agEvento < NOCAIDA 13 0 >
 eventos 0
 tiempoCaida 0

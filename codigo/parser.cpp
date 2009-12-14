@@ -22,9 +22,12 @@ int main(int argc, const char* argv[]){
 	testSecu();
 	testConj();
 	testArreglo();
-	testArbol();
  	testCola();
+	testArbol();
 */
+
+
+
 	int i;
 	string nombreArchivoEntrada, nombreArchivoSalida, textLine, cmd, elem_str;
 	Nat elem_nat;

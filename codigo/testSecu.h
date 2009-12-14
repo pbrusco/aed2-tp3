@@ -7,6 +7,7 @@ void testEsta();
 void testAgregar();
 void testCopiaSecu();
 void testIesimo();
+void testIterador();
 void testEscribirSecu();
 void randSecu(Secu<Nat> &s, Nat tam);
 bool sonIguales(Secu<Nat>& s,Secu<Nat>& t);
@@ -21,6 +22,7 @@ void testSecu(){
 	cout << "testCopiaSecu..."; testCopiaSecu(); cout << "OK" << endl;
 	cout << "testIesimo..."; testIesimo(); cout << "OK" << endl;
 	cout << "test EscribirSecu...  "; testEscribirSecu(); cout << "OK" << endl;
+	cout << "test testIterador...  "; testIterador(); cout << "OK" << endl;
 
 	cout << "MODULO SECU FUNCIONA CORRECTAMENTE" << endl << endl;
 
@@ -163,6 +165,17 @@ void testIesimo(){
 		assert(nueva.iesimo(i+1) == actualAdelante(it));
 		avanzar(it);
 	}
+
+}
+
+void testIterador(){
+
+	Secu<Nat> nueva;
+	nueva.agAdelante(4);
+	IterSecu<Nat> it = nueva.crearIt();
+	assert(actualAdelante(it) == 4);
+	assert(actualAdelante(it) == actualAtras(it));
+	assert(!tieneAnterior(it) && !tieneProximo(it));
 
 }
 
