@@ -6,7 +6,7 @@
 #include <vector>
 #include "parser.h"
 #include "enrutador.h"
-
+#include <memory>
 #include <cassert>
 #include <cstdlib>
 #include "testSecu.h"
@@ -33,7 +33,8 @@ int main(int argc, const char* argv[]){
 	Decoder decode;
     	ifstream ifs;
     	ofstream ofs;
-	Enrutador* router;
+		auto_ptr<Enrutador> router;
+
  
 	if( argc < 3 ){
 		cout << "Modo de uso: " << argv[0] << " archivo.in archivo.out" << endl;
@@ -106,7 +107,7 @@ int main(int argc, const char* argv[]){
 
 				case nuevo: // conj(interfaz) -> router
 					ist >> elem_nat; // leo las interfaces
-					router = new Enrutador(elem_nat); // genero el enrutador
+					router.reset(new Enrutador(elem_nat)); // genero el enrutador
 					break;
 
 				case estaCaida: // conj(interfaz) -> router
