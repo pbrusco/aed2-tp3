@@ -32,7 +32,7 @@ class ArbolDeReglas{
 		// Destructor
 		~ArbolDeReglas();
 
-		//constructor por copia
+		// Constructor por copia
 		ArbolDeReglas(const ArbolDeReglas & otro);
 		
 		// Operador de asignacion
@@ -80,11 +80,13 @@ ArbolDeReglas::~ArbolDeReglas(){
 	vaciar();
 }
 
+
 ArbolDeReglas::ArbolDeReglas(const ArbolDeReglas & otro){
 
 	raiz = new Nodo;
 	copiarArbol(raiz, otro.raiz);
 }
+
 
 ArbolDeReglas& ArbolDeReglas::operator=(const ArbolDeReglas& a){
 
@@ -94,25 +96,6 @@ ArbolDeReglas& ArbolDeReglas::operator=(const ArbolDeReglas& a){
 	return *this;
 }
 
-
-void ArbolDeReglas::copiarArbol(Nodo* copia, Nodo* otro) {
-
-	if(otro != NULL){
-		if(otro->inter != NULL){
-			copia->inter = new Interfaz;
-			*copia->inter = *otro->inter;
-		}
-		copia->dirty = otro->dirty;
-		if(otro->izq != NULL)
-			copia->izq = new Nodo;
-		if(otro->der != NULL)
-			copia->der = new Nodo;
-
-		copiarArbol(copia->izq,otro->izq);
-		copiarArbol(copia->der,otro->der);
-	}
-}
-		
 
 void ArbolDeReglas::agRegla(const ReglaDir& r){
 
@@ -281,6 +264,25 @@ void ArbolDeReglas::vaciar(){
 		
 		delete aux->inter;
 		delete aux;
+	}
+}
+
+
+void ArbolDeReglas::copiarArbol(Nodo* copia, Nodo* otro) {
+
+	if(otro != NULL){
+		if(otro->inter != NULL){
+			copia->inter = new Interfaz;
+			*copia->inter = *otro->inter;
+		}
+		copia->dirty = otro->dirty;
+		if(otro->izq != NULL)
+			copia->izq = new Nodo;
+		if(otro->der != NULL)
+			copia->der = new Nodo;
+
+		copiarArbol(copia->izq,otro->izq);
+		copiarArbol(copia->der,otro->der);
 	}
 }
 
