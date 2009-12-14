@@ -75,13 +75,8 @@ Enrutador::Enrutador(const int cantInter){
 
 
 Enrutador::~Enrutador(){
+	
 
-	IterSecu<VersionYArbol> it = reglas.crearIt();
-
-	while(tieneProximo(it)){
-		delete &(actualAdelante(it).abr);
-		delete &(actualAdelante(it));
-	}
 }
 
 
@@ -124,9 +119,9 @@ bool Enrutador::estaCaida(Interfaz i) const{
 void Enrutador::agVersion(const Version &v){
 
 	versioness.agregar(v);
-	ArbolDeReglas* a = new ArbolDeReglas;
-	VersionYArbol* aux = new VersionYArbol(v,*a);
-	reglas.agAdelante(*aux);
+	ArbolDeReglas a;
+	VersionYArbol aux(v,a);
+	reglas.agAdelante(aux);
 }
 
 
