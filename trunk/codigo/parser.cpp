@@ -4,38 +4,26 @@
 #include <fstream>
 #include <map>
 #include <vector>
-#include "parser.h"
-#include "enrutador.h"
-#include <memory>
 #include <cassert>
 #include <cstdlib>
-#include "testSecu.h"
-#include "testCola.h"
-#include "testConj.h"
-#include "testArregloDimensionable.h"
-#include "testArbolDeReglas.h"
+#include <memory>
+
+#include "parser.h"
+#include "enrutador.h"
 
 using namespace std;
 
 int main(int argc, const char* argv[]){
-/*
-	testSecu();
-	testConj();
-	testArreglo();
- 	testCola();
-	testArbol();
-*/
 
 	int i;
 	string nombreArchivoEntrada, nombreArchivoSalida, textLine, cmd, elem_str;
 	Nat elem_nat;
 	bool esPrimerComando = true;
 	Decoder decode;
-    	ifstream ifs;
-    	ofstream ofs;
-		auto_ptr<Enrutador> router;
+    ifstream ifs;
+    ofstream ofs;
+	auto_ptr<Enrutador> router;
 
- 
 	if( argc < 3 ){
 		cout << "Modo de uso: " << argv[0] << " archivo.in archivo.out" << endl;
 		return 1;
@@ -193,6 +181,6 @@ int main(int argc, const char* argv[]){
 
 	ifs.close();
 	ofs.close();
-
+		
 	return 0;
 }
