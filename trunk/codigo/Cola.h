@@ -27,9 +27,6 @@ class Cola {
 	
 		// Indica la longitud de la cola
 		Nat tam() const;
-
-		//asignacion
-		Cola& operator=(const Cola<T> & otra);
 	
 	
 	private:
@@ -64,28 +61,6 @@ Cola<T>::~Cola(){
 	while(cant != 0){
 		desencolar();
 	}
-}
-
-
-template <class T>
-Cola<T>& Cola<T>::operator=(const Cola<T> & otra){
-
-	while(cant != 0){
-		desencolar();
-	}
-
-	T* aux;
-
-	while(cant != otra.tam()){
-
-		aux = &otra.observar();
-		encolar(*aux);
-		otra.desencolar();
-		otra.encolar(*aux);
-	
-	}
-
-	return *this;
 }
 
 

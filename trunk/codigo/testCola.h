@@ -11,42 +11,10 @@ void randCola(Cola<Nat>& c, Nat tam);
 
 void testCola(){
 
-	cout << "testEncolar..."; testEncolar(); cout << "OK" << endl;
-	cout << "testDesencolar..."; testDesencolar(); cout << "OK" << endl;
 	cout << "testLongitudCola..."; testLongitudCola(); cout << "OK" << endl;
 	cout << "testObservar..."; testObservar(); cout << "OK" << endl << endl;
 	
 	cout << "MODULO COLA FUNCIONA CORRECTAMENTE" << endl << endl;
-}
-
-
-void testEncolar(){
-	
-	Cola<Nat> c;
-	Nat n = 0;
-	Nat tam = rand()%100;
-		
-	for(Nat i = 0; i < tam; ++i){
-		n = rand()%100000;
-		assert(c.tam() == i);
-		c.encolar(n);
-	}
-	
-	assert(c.tam() == tam);
-}
-
-
-void testDesencolar(){
-	
-	Cola<Nat> c;
-	
-	randCola(c, 20);
-	
-	for(Nat i = 0; i < 20; i++){
-		c.desencolar();
-		assert(c.tam() == 19-i);
-	}
-	
 }
 
 
@@ -55,24 +23,35 @@ void testLongitudCola(){
 	Cola<Nat> c;
 	assert(c.tam() == 0);
 		
-	Nat n = rand()%100;
+	Nat n = rand()%10000;
 	
 	randCola(c,n);
 	assert(c.tam() == n);
+
+	for(int i = 0;i<n/2;i++)
+		c.desencolar();
+
+	assert(c.tam() == n-n/2);
+
+	while(!c.vacia())
+		c.desencolar();
+
+	assert(c.tam() == 0);
 }
 
 
 void testObservar(){
 	
 	Cola<Nat> c;
-	Nat n = rand()%100;
+	Nat n = rand()%10000;
 	
-	for(Nat i = 0; i < n ; i++){
+	for(Nat i = 0; i < n ; i++)
 		c.encolar(i);
+
+	for(Nat i = 0; i < n ; i++){
 		assert(c.observar() == i);
 		c.desencolar();
 	}
-	
 }
 
 void randCola(Cola<Nat>& c, Nat tam){
