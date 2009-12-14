@@ -161,26 +161,27 @@ void Enrutador::agEvento(const Evento &e){
 	}
 	else{
 		if (tieneAnterior(it)){
-			while (actualAtras(it) != e){
+			while (not (actualAtras(it) == e)){
 			tsig = actualAtras(it).timestamp ;
 			retroceder(it);
 			}
 		
-			if (not tieneAnterior(it))
+			if (not (tieneAnterior(it))){
 				if (e.esCaida)
-				  tc = tc + (tsig - tact);
+					tc = tc + (tsig - tact);
+				}
 			else{
 				retroceder(it);
 				tant = actualAtras(it).timestamp;
-				if (e.esCaida and (not actualAtras(it).esCaida))
+				if (e.esCaida and (not (actualAtras(it).esCaida)))
 					tc = tc + (tsig - tact);
 
-				if (not e.esCaida and actualAtras(it).esCaida)
+				if (not (e.esCaida) and actualAtras(it).esCaida)
 					tc = tc - (tsig - tact);
 			}
 		}
 	}
-	(status_inter[i]).tiempoCaida = tc;
+	(status_inter[e.interfaz]).tiempoCaida = tc;
 }
 
 
