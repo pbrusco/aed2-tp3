@@ -114,7 +114,7 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 			aux->dirty = false;
 		}
 
-		if(camino_sucio || aux == raiz){
+		if(camino_sucio){
 			delete aux->inter;
 			aux->inter = NULL;
 		}

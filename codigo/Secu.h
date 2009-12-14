@@ -287,14 +287,13 @@ void Secu<T>::escribir(ostream& os) const{
 	os << "[ ";
 		
 	if (!vacia()){
-		while(aux != ult){
+		while(aux != NULL){
 			os << (aux->dato) << ' ';
 			aux = aux->siguiente;
-		}
-		os << (ult->dato);
+		}	
 	}
 
-	os << " ]" ;
+	os << ']' ;
 }
 
 

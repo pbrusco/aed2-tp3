@@ -61,10 +61,10 @@ void Conjunto<T>::escribir(ostream& os) const{
 			os << actualAdelante(it) << ' ';
 			avanzar(it);
 		}
-		os << (actualAdelante(it));
+		os << (actualAdelante(it)) << ' ';
 	}
 
-	os << " }";
+	os << "}";
 }
  
 
