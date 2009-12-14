@@ -137,40 +137,46 @@ void Enrutador::agRegla(const ReglaDir &r){
 
 
 void Enrutador::agEvento(const Evento &e){
-	
-	Evento evento_prev;
-	Evento evento_post;
 
-	Interfaz i = e.interfaz;
-	Nat tc = status_inter[i].tiempoCaida;
-	
-	status_inter[i].eventos.agAtras(e);
+	Interfaz i;
+	Nat tc;
+	Nat tact;
+	Nat tant;
+	Nat tsig;
 
-	IterSecu<Evento> it = status_inter[i].eventos.crearIt();
+	tact = e.timestamp;
+
+	tc = status_inter[e.interfaz].tiempoCaida;
+
+	status_inter[e.interfaz].eventos.agAtras(e);
+
+	IterSecu<Evento> it = status_inter[e.interfaz].eventos.crearIt();
+
+	
 
 	if ((actualAtras(it) == e) and tieneAnterior(it)){
-	 retroceder(it);
-	 if (actualAtras(it).esCaida)
-		 tc = tc + (e.timestamp - actualAtras(it).timestamp);
+		 retroceder(it);
+		 if (actualAtras(it).esCaida)
+			 tc = tc + (tact - actualAtras(it).timestamp);
 	}
 	else{
 		if (tieneAnterior(it)){
-			while (actualAtras(it) == e){
-			evento_post = actualAtras(it) ;
+			while (actualAtras(it) != e){
+			tsig = actualAtras(it).timestamp ;
 			retroceder(it);
 			}
 		
 			if (not tieneAnterior(it))
 				if (e.esCaida)
-				  tc = tc + (evento_post.timestamp - e.timestamp);
+				  tc = tc + (tsig - tact);
 			else{
 				retroceder(it);
-				evento_prev = actualAtras(it);
-				if (e.esCaida and (not evento_prev.esCaida))
-					tc = tc + (evento_post.timestamp - e.timestamp);
+				tant = actualAtras(it).timestamp;
+				if (e.esCaida and (not actualAtras(it).esCaida))
+					tc = tc + (tsig - tact);
 
-				if (not e.esCaida and evento_prev.esCaida)
-					tc = tc - (evento_post.timestamp - e.timestamp);
+				if (not e.esCaida and actualAtras(it).esCaida)
+					tc = tc - (tsig - tact);
 			}
 		}
 	}
