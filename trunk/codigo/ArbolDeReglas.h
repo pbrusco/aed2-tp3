@@ -154,6 +154,9 @@ void ArbolDeReglas::agRegla(const ReglaDir& r){
 	
 	if(aux->izq != NULL)
 		(aux->izq)->dirty = true;
+
+	(aux->dirty) = false;
+
 }
 
 
