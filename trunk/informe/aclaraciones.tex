@@ -1,0 +1,19 @@
+\section{Aclaraciones}
+
+\paragraph{}
+Durante la realizaci\'on del dise\~no del trabajo pr\'actico 2, en el m\'odulo del \'Arbol de Reglas se hicieron los algoritmos de una forma que en la pr\'actica no ser\'ia la m\'as correcta. Puntualmente, en el algoritmo \textit{agRegla} del dise\~no, una vez posicionados sobre el nodo que se quer\'ia agregar/modificar, se proced\'ia a poner en NULL a ambos hijos. Esto no era causante de problemas durante el dise\~no, pero en el per\'iodo de implementaci\'on, apuntar los hijos a NULL significa que se pierden los punteros a las posiciones de memoria correspondientes a todos los nodos posicionados debajo del que se acaba de modificar, generando de esta forma p\'erdidas de memoria no deseadas.\\
+Por lo tanto, en la implementaci\'on se decidi\'o agregar un dato m\'as en los nodos del \'arbol: un booleano que nos indicara si ese nodo estaba o no disponible.
+
+\paragraph{}
+De esta manera, se vieron modificados todos los algoritmos del \'Arbol de Reglas de forma tal que respondieran a la nueva estructura de los nodos. Estas modificaciones no fueron extremas, sino que s\'olo se agregaron condiciones en las guardas ya existentes con el fin de que los algoritmos se siguieran comportando como si se podara el \'arbol, aunque esto no suceda.
+
+Los cambios puntuales son los siguientes:
+
+\begin{itemize}
+ \item En \textit{agRegla} se agreg\'o un booleano que al encontrar un nodo marcado como ``sucio'' va arrastrando por el camino dicho valor de forma tal que quede disponible la regla que se est\'a agregando actualmente pero no las m\'as antiguas pertenecientes al mismo camino.
+ \item En \textit{tieneRegla} el \'unico cambio realizado fue en la guarda del \textbf{while} en donde se agreg\'o que no se contin\'ue iterando si el nodo al que estamos observando est\'a marcado como ``sucio''.
+ \item En \textit{interfazDeSalida} el cambio realizado fue en 2 guardas correspondientes a un \textbf{if}. En las mismas lo que se hizo fue modificar la condici\'on ya existente (\textit{aux$\rightarrow$der/izq $==$ NULL}) y agregarle una disyunci\'on con la condici\'on \textit{(aux$\rightarrow$der/izq)$\rightarrow$dirty} de forma tal que tambi\'en se finalice la b\'usqueda si se encuentra un nodo marcado como ``sucio''.
+\end{itemize}
+
+\paragraph{}
+Por \'ultimo, en el m\'odulo correspondiente a la Secuencia, se modific\'o el algoritmo \textit{esta} de forma tal que no use iteradores, sino que utilice punteros, aprovechando la estructura interna de la secuencia (visible para este algoritmo).
